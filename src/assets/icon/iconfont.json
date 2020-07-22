@@ -1,0 +1,51 @@
+{
+  "id": "1954929",
+  "name": "no name",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-crm",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "8099465",
+      "name": "菜单",
+      "font_class": "caidan",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "5980486",
+      "name": "会员查询_消费卡",
+      "font_class": "huiyuanchaxun_xiaofeiqia",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "8412852",
+      "name": "管理员",
+      "font_class": "guanliyuan",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "9005669",
+      "name": "喜豆",
+      "font_class": "douzi",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "12445217",
+      "name": "注册",
+      "font_class": "zhuce",
+      "unicode": "e9b6",
+      "unicode_decimal": 59830
+    },
+    {
+      "icon_id": "13545792",
+      "name": "首 页",
+      "font_class": "shouye",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    }
+  ]
+}
