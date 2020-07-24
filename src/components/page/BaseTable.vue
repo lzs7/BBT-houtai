@@ -1,15 +1,18 @@
 <template>
   <div class="table">
-    委托状态：
+    <span>委托状态：</span>
     <el-select v-model="list.zhuantai" placeholder="委托状态">
       <el-option label="状态一" value="shanghai"></el-option>
       <el-option label="状态二" value="beijing"></el-option>
-    </el-select>保险公司：
+    </el-select>
+    <span style="margin-left:10px">保险公司：</span>
     <el-select v-model="list.baoxian" placeholder="选择保险公司">
       <el-option label="保险公司1" value="shanghai"></el-option>
       <el-option label="保险公司2" value="beijing"></el-option>
-    </el-select>委托人电话：
-    <el-input v-model="list.phone" placeholder="手机号码" style="width: 200px;"></el-input>车牌号码：
+    </el-select>
+    <span style="margin-left:10px">委托人电话：</span>
+    <el-input v-model="list.phone" placeholder="手机号码" style="width: 200px;"></el-input>
+    <span style="margin-left:10px">车牌号码：</span>
     <el-input v-model="list.chepai" placeholder="车牌号码" style="width: 200px;"></el-input>
     <div style="margin-top:10px">
       日期选择：

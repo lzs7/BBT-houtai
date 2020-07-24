@@ -5,7 +5,7 @@
         <div class="grid-content bg-purple">
           <div class="nei">
             <div class="tite">总的委托人数</div>
-            <h1 class="number">10</h1>
+            <h1 class="Number">10</h1>
           </div>
         </div>
       </el-col>
@@ -13,7 +13,7 @@
         <div class="grid-content bg-purple">
           <div class="nei">
             <div class="tite">总的委托数</div>
-            <h1 class="number">10</h1>
+            <h1 class="Number">10</h1>
           </div>
         </div>
       </el-col>
@@ -21,7 +21,7 @@
         <div class="grid-content bg-purple">
           <div class="nei">
             <div class="tite">今天注册人数</div>
-            <h1 class="number">10</h1>
+            <h1 class="Number">10</h1>
           </div>
         </div>
       </el-col>
@@ -29,7 +29,7 @@
         <div class="grid-content bg-purple">
           <div class="nei">
             <div class="tite">当天发布的委托数</div>
-            <h1 class="number">10</h1>
+            <h1 class="Number">10</h1>
           </div>
         </div>
       </el-col>
@@ -78,7 +78,7 @@
   width:100%;
   text-align: center;
 }
-.number{
+.Number{
   position: absolute;
   top: 45%;
   width: 100%;

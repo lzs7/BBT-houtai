@@ -10,11 +10,13 @@ import './components/common/directives';
 import "babel-polyfill";
 import store from './store'
 import './assets/icon/iconfont.css'
+import common from './utils/common'
 ////import Mock from './mock/mock'
 Vue.config.productionTip = false
 Vue.use(ElementUI, {
     size: 'small'
 });
+Vue.prototype.common = common;
 Vue.prototype.$axios = axios;
 //Mock.bootstrap();
 //使用钩子函数对路由进行权限跳转
@@ -24,7 +26,7 @@ router.beforeEach((to, from, next) => {
         next('/login');
     } else if (to.meta.permission) {
         // 如果是管理员权限则可进入，这里只是简单的模拟管理员权限而已
-        role === 'admin' ? next() : next('/403');
+        role === '1' ? next() : next('/403');
     } else {
         // 简单的判断IE10及以下不进入富文本编辑器，该组件不兼容
         if (navigator.userAgent.indexOf('MSIE') > -1 && to.path === '/editor') {

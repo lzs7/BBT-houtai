@@ -2,12 +2,14 @@
   <div>
     <!-- 通过审核 -->
     <div class="filter-container">
-      用户姓名：
-      <el-input v-model="list.name" placeholder="姓名" style="width: 200px;"></el-input>保险公司：
+      <span>用户姓名：</span>
+      <el-input v-model="list.name" placeholder="姓名" style="width: 200px;"></el-input>
+      <span style="margin-left:10px">保险公司：</span>
       <el-select v-model="list.baoxian" placeholder="请选择活动区域">
         <el-option label="区域一" value="shanghai"></el-option>
         <el-option label="区域二" value="beijing"></el-option>
-      </el-select>手机号码：
+      </el-select>
+      <span style="margin-left:10px">手机号码：</span>
       <el-input v-model="list.phone" placeholder="手机号码" style="width: 200px;"></el-input>
       <div style="margin-top:10px">
         注册时间：
@@ -118,6 +120,9 @@ export default {
 };
 </script>
 <style scoped>
+span{
+  font-size:14px;
+}
 .pagination-container {
   margin-top: 20px;
 }

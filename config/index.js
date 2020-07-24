@@ -11,29 +11,14 @@ module.exports = {
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
         proxyTable: {
-            // devServer: {
-            //     //port:8888,
-            //     proxy: {
-            //         '/api': {
-            //             target: 'http://jsonplaceholder.typicode.com',
-            //             changeOrigin: true,
-            //             pathRewrite: {
-            //                 '/api': ''
-            //             }
-            //         },
-            //         '/testApi': {
-            //             target: 'http://111.8.20.247:89/api/apph5api',
-            //             changeOrigin: true,
-            //             pathRewrite: {
-            //                 '^/testApi': '/testApi'
-            //             }
-            //         },
-            //         '/ms': {
-            //             target: 'https://www.easy-mock.com/mock/592501a391470c0ac1fab128',
-            //             changeOrigin: true
-            //         }
-
-            // },
+            '/api': { //使用"/api"来代替
+                target: 'http://localhost:8888', //接口域名 
+                // target: 'http://www.dwhlzchb.com:8080/bbt/',
+                changeOrigin: true, //跨域
+                pathRewrite: {
+                    '^/api': '' //路径重写 
+                }
+            },
         },
         // Various Dev Server settings
         host: 'localhost', // can be overwritten by process.env.HOST

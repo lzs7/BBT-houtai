@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "2400009",
+      "name": "账号",
+      "font_class": "zhanghao",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "15252726",
+      "name": "密 码",
+      "font_class": "mima",
+      "unicode": "e89f",
+      "unicode_decimal": 59551
+    },
+    {
       "icon_id": "8099465",
       "name": "菜单",
       "font_class": "caidan",
