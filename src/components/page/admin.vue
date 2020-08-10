@@ -6,17 +6,17 @@
           <div class="user-info">
             <img src="../../assets/img/img.gif" class="user-avator" alt />
             <div class="user-info-cont">
-              <div class="user-info-name">{{list.name}}</div>
+              <div class="user-info-name">{{list.adminName}}</div>
               <div>{{role}}</div>
             </div>
           </div>
           <div class="user-info-list">
             管理员姓名：
-            <span>{{list.gname}}</span>
+            <span>{{list.adminName}}</span>
           </div>
           <div class="user-info-list">
             管理员电话：
-            <span>{{list.phone}}</span>
+            <span>{{list.adminPhone}}</span>
           </div>
           <div class="user-info-list btn">
             <el-button type="primary" plain @click="dialogFormVisible = true">修改资料</el-button>
@@ -26,15 +26,21 @@
     </el-row>
     <!-- 弹窗 -->
     <el-dialog title="修改信息" :visible.sync="dialogFormVisible" center>
-      <el-form :model="list">
+      <el-form :model="form" :rules="rules" ref="form">
         <el-form-item label="管理员姓名">
-          <el-input v-model="list.gname"></el-input>
+          <el-input v-model="form.adminName"></el-input>
         </el-form-item>
         <el-form-item label="管理员电话">
-          <el-input v-model="list.phone"></el-input>
+          <el-input v-model="form.adminPhone"></el-input>
         </el-form-item>
         <el-form-item label="管理员账号">
-          <el-input v-model="list.name"></el-input>
+          <el-input v-model="form.adminAccount"></el-input>
+        </el-form-item>
+        <el-form-item label="原密码">
+          <el-input type="password" v-model="form.adminPassword" autocomplete="new-password"></el-input>
+        </el-form-item>
+        <el-form-item label="新密码">
+          <el-input type="password" show-password v-model="form.newPassword" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="身份(不可修改)" readonly>
           <el-input v-model="role"></el-input>
@@ -42,39 +48,100 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        <el-button type="primary" @click="modify('form')">确 定</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 <script>
+import { getadminparticulars } from "../../api/api";
+import { putAdminParticulars } from "../../api/api";
 export default {
+  inject: ["reload"],
   name: "admin",
   data() {
     return {
-        list:{
-            name: localStorage.getItem("ms_username"),
-            gname: 'lizesheng',
-            phone:'15523652361',
-            
-        },
-      
+      list: {},
+      form: {},
+      rules: {
+        adminName: [
+          { required: false, message: "请输入用户名", trigger: "blur" },
+        ],
+        adminPhone: [
+          { required: false, message: "请输入电话号码", trigger: "blur" },
+          { type: "number", message: "必须为数字值" },
+          {
+            required: false,
+            pattern: /^1[3-9]\d{9}$/,
+            message: "请输入正确的电话号码",
+            trigger: "blur",
+          },
+        ],
+        adminAccount: [
+          { required: false, message: "请输入账号", trigger: "blur" },
+        ],
+      },
       dialogFormVisible: false,
-      readonly: true//只读
-    //   form:{
-    //       gname:'',
-    //       phone: '',
-    //       name: '',
-    //       identity:'',
-    //   }
+      readonly: true, //只读
+      adminId: "",
+      adminRoleId: "",
     };
   },
-  mounted: {},
+  methods: {
+    modify(formName) {
+      // 表单验证
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          let data = this.form;
+          console.log(data);
+          putAdminParticulars(data)
+            .then((res) => {
+              console.log(res.data)
+              if (res.data.code == 200) {
+                this.$notify({
+                  title: "成功",
+                  message: "修改成功",
+                  type: "success",
+                });
+                this.reload();
+              }
+            })
+            .catch((err) => console.log(err));
+        } else {
+          console.log("error submit！");
+          return false;
+        }
+      });
+      this.dialogFormVisible = false;
+    },
+  },
+  mounted() {
+    let cookie = this.common.getCookie(); //获取cookie
+    this.adminId = cookie.replace(/\"/g, "").split("#")[0]; //获取cookie下标为0的adminId
+    console.log(this.adminId);
+    getadminparticulars({
+      adminId: this.adminId,
+    })
+      .then((res) => {
+        this.list = res.data.data;
+        this.form = {
+          adminId: this.list.adminId,
+          adminName: this.list.adminName,
+          adminPhone: this.list.adminPhone,
+          adminAccount: this.list.adminAccount,
+          adminPassword:'' ,
+          newPassword: '',
+        };
+        console.log(this.form);
+        this.adminRoleId = this.list.adminRoleId;
+      })
+      .catch((err) => console.log(err));
+  },
   computed: {
     role() {
-      return this.name === "admin" ? "超级管理员" : "普通用户";
-    }
-  }
+      return this.adminRoleId == 1 ? "超级管理员":this.adminRoleId==2 ? "高级管理员":this.adminRoleId==3 ? "中级管理员" : this.adminRoleId==4 ? "初级管理员" : this.adminRoleId==5 ? "管理员":"";
+    },
+  },
 };
 </script>
 

@@ -15,13 +15,13 @@
     <el-dialog title="密码修改" :visible.sync="isShow" v-dialogDrag :before-close="handleClose">
       <el-form :model="form">
         <el-form-item label="原密码" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
+          <el-input v-model="form.adminPassword" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="新密码" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off"></el-input>
+            <el-input v-model="form.newPassword" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="确认密码" :label-width="formLabelWidth">
-            <el-input show-password v-model="form.name" autocomplete="off"></el-input>
+            <el-input show-password v-model="form.newPassword" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -39,21 +39,16 @@ import vTags from "./Tags.vue";
 import bus from "./bus";
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
+import { getadminparticulars } from "../../api/api";
 export default {
   data() {
     return {
       tagsList: [],
       collapse: false,
       form: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
-        },
+        adminPassword: '',
+        newPassword: ''
+      },
         formLabelWidth: '120px'
     };
   },
@@ -91,6 +86,23 @@ export default {
       }
       this.tagsList = arr;
     });
+    // let cookie = this.common.getCookie(); //获取cookie
+    // this.adminId = cookie.replace(/\"/g, "").split("#")[0]; //获取cookie下标为0的adminId
+    // console.log(this.adminId);
+    // getadminparticulars({
+    //   adminId: this.adminId,
+    // })
+    //   .then((res) => {
+    //     let list = res.data.data;
+    //     this.form={
+    //      adminPassword:list.adminPassword,//当前密码
+    //       newPassword:list.newPassword//新密码
+    //     }
+    //     console.log(this.form)
+    //     this.adminRoleId = this.list.adminRoleId;
+    //   })
+    //   .catch((err) => console.log(err));
+  
   }
-};
+}
 </script>

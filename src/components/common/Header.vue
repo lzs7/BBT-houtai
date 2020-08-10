@@ -29,14 +29,13 @@
         <!-- 用户名下拉菜单 -->
         <el-dropdown class="user-name" trigger="click" @command="handleCommand">
           <span class="el-dropdown-link">
-            {{username}}
+            {{list.adminName}}
             <i class="el-icon-caret-bottom"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
             <router-link to="/admin">
               <el-dropdown-item>用户信息</el-dropdown-item>
             </router-link>
-            <el-dropdown-item command="user">修改密码</el-dropdown-item>
             <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -49,20 +48,20 @@ import bus from "../common/bus";
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
 import ThemePicker from "../ThemePicker";
+import { getadminparticulars } from "../../api/api";
+import {exit} from '../../api/api'
 export default {
   data() {
     return {
       collapse: false,
       fullscreen: false,
       name: "linxin",
-      message: 2
+      message: 2,
+      list: {},
+      form: {}
     };
   },
   computed: {
-    username() {
-      let username = localStorage.getItem("ms_username");
-      return username ? username : this.name;
-    },
     ...mapGetters("dailog", {
       isShow: "isShow"
     })
@@ -71,10 +70,17 @@ export default {
     // 用户名下拉菜单选择事件
     handleCommand(command) {
       if (command == "loginout") {
-        localStorage.removeItem("ms_username");
-        this.$router.push("/login");
-      } else if (command == "user") {
-        this.$store.dispatch("dailog/showDailog");
+      //   localStorage.removeItem("ms_username");
+      //   this.$router.push("/login");
+      // } else if (command == "user") {
+      //   this.$store.dispatch("dailog/showDailog");
+      exit().then((res) => {
+        if(res.data.code==200){
+          this.$router.push("/login");
+        }
+
+        // this.$router.push("/login");
+      })
       }
     },
     ...mapActions("dailog", ["hideDailog", "showDailog"]),
@@ -118,6 +124,20 @@ export default {
     if (document.body.clientWidth < 1500) {
       this.collapseChage();
     }
+     let cookie = this.common.getCookie(); //获取cookie
+    this.adminId = cookie.replace(/\"/g, "").split("#")[0]; //获取cookie下标为0的adminId
+    getadminparticulars({
+      adminId: this.adminId,
+    })
+      .then((res) => {
+        this.list = res.data.data;
+        this.form={
+         adminPassword:this.list.adminPassword,//当前密码
+          newPassword:this.list.newPassword//新密码
+        }
+        this.adminRoleId = this.list.adminRoleId;
+      })
+      .catch((err) => console.log(err));
   }
 };
 </script>

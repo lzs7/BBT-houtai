@@ -27,21 +27,25 @@
     </div>
     <div style="margin-top:10px">
       <el-table :data="tableData" border style="width: 100%">
-        <el-table-column fixed prop="name" label="用户姓名" width="150"></el-table-column>
-        <el-table-column prop="idcard" label="身份证号码" width="160"></el-table-column>
-        <el-table-column prop="phone" label="用户电话" width="120"></el-table-column>
-        <el-table-column prop="baoxian" label="保险公司" width="120"></el-table-column>
-        <el-table-column prop="time" label="注册时间" width="120"></el-table-column>
-        <el-table-column prop="bianhao" label="保险公司编号" width="120"></el-table-column>
+        <el-table-column prop="userName" label="用户姓名" width="170"></el-table-column>
+        <!-- <el-table-column prop="idcard" label="身份证号码" width="160"></el-table-column> -->
+        <el-table-column prop="userPhone" label="用户电话" width="200"></el-table-column>
+        <el-table-column prop="insuranceCompanyName" label="保险公司" width="300"></el-table-column>
+        <el-table-column prop="userTime" label="注册时间" width="300"></el-table-column>
+        <!-- <el-table-column prop="bianhao" label="保险公司编号" width="120"></el-table-column>
         <el-table-column prop="city" label="所在城市" width="180"></el-table-column>
         <el-table-column prop="queren" label="确认信息" width="120"></el-table-column>
-        <el-table-column prop="shiming" label="实名状态" width="120"></el-table-column>
+        <el-table-column prop="shiming" label="实名状态" width="120"></el-table-column>-->
+        <el-table-column label="操作" width="183">
+          <template slot-scope="scope">
+            <el-button size="mini" @click="xiangqing(scope.row)">详情</el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <div :class="{'hidden':hidden}" class="pagination-container">
       <el-pagination
         :background="background"
-        :current-page.sync="currentPage"
         :layout="layout"
         :page-sizes="pageSizes"
         :total="total"
@@ -50,9 +54,25 @@
         @current-change="handleCurrentChange"
       />
     </div>
+    <!-- 详情弹窗 -->
+    <el-dialog title="详情" :visible.sync="centerDialogVisible" width="50%" center>
+       <el-form :model="tableData1">
+    <el-form-item label="活动名称" :label-width="formLabelWidth">
+      <el-input v-model="tableData1.userName" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="活动区域" :label-width="formLabelWidth">
+      <el-select v-model="form.region" placeholder="请选择活动区域">
+        <el-option label="区域一" value="shanghai"></el-option>
+        <el-option label="区域二" value="beijing"></el-option>
+      </el-select>
+    </el-form-item>
+  </el-form>
+    </el-dialog>
   </div>
 </template>
 <script>
+import { getnewuser } from "../api/api";
+import { getuser } from "../api/api";
 export default {
   data() {
     return {
@@ -60,47 +80,27 @@ export default {
         name: "",
         baoxian: "",
         phone: "",
-        value1: ""
+        value1: "",
       },
-      dialogFormVisible: false,
-      tableData: [
-        {
-          name: "王小虎",
-          idcard: "430125633215896243",
-          phone: "18645162100",
-          baoxian: "平安保险",
-          time: "2020-07-17",
-          bianhao: "001",
-          city: "湖南省长沙市雨花区",
-          queren: "未确认",
-          shiming: "未实名"
-        },
-        {
-          name: "王小虎",
-          idcard: "430125633215896243",
-          phone: "18645162100",
-          baoxian: "平安保险",
-          time: "2020-07-17",
-          bianhao: "001",
-          city: "湖南省长沙市雨花区",
-          queren: "未确认",
-          shiming: "未实名"
-        }
-      ],
+      tableData: [],
       form: {
         name: "",
-        region: ""
+        region: "",
       },
       formLabelWidth: "120px",
-      total: 10,
+      total: 0,
       page: 1,
       limit: 20,
       pageSizes: [5, 10],
-      layout: "total, sizes, prev, pager, next, jumper",
+      pageSize: "pageSize",
+      layout: "total, sizes, prev, pager, next",
       background: true,
       autoScroll: true,
       hidden: false,
-      currentPage: 3
+      adminId: "",
+      adminRoleId: "",
+      centerDialogVisible : false,
+      tableData1:{}, //详情
     };
   },
   methods: {
@@ -115,13 +115,44 @@ export default {
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
-    }
-  }
+    },
+    xiangqing(val) {
+      this.centerDialogVisible  = true;
+      console.log(val);
+      let userId = val.userId;
+      console.log(userId);
+      getuser({
+        userId: userId,
+        adminRoleId: this.adminRoleId,
+      })
+        .then((res) => {
+          this.tableData1 = res.data.data;
+          
+        })
+        .catch((err) => console.log(err));
+    },
+  },
+  mounted() {
+    let cookie = this.common.getCookie(); //获取cookie
+    this.adminId = cookie.replace(/\"/g, "").split("#")[0]; //获取cookie下标为0的adminId
+    this.adminRoleId = cookie.replace(/\"/g, "").split("#")[1];
+    getnewuser({
+      adminId: this.adminId,
+      userState: 3,
+    })
+      .then((res) => {
+        console.log(res.data);
+        this.tableData = res.data.data;
+        this.total = res.data.count; //总条数
+        this.pageSize = res.data.size; //每页显示多少条
+      })
+      .catch((err) => console.log(err));
+  },
 };
 </script>
 <style scoped>
-span{
-  font-size:14px;
+span {
+  font-size: 14px;
 }
 .pagination-container {
   margin-top: 20px;

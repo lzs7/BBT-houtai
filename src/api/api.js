@@ -1,58 +1,61 @@
-// import axios from 'axios';
-// let baseUrl = '';
-// export const getUserList = params => {
-//         return axios.get(`${baseUrl}/user/list`, { params: params })
-//     }
-// export const getSysmenu = () => {
-//     return axios.get('../../menu.json')
-// }
-// export const getDeleUser = params => {
-//         return axios.get('user/deletUsers', { params: params });
-//     }
-// saveUser() {页面使用
-//     let params = Object.assign({}, this.addUserForm);//data 里的对象
-//     params.username = params.username.trim();
-//     getAddUser(params).then(res => {
-//       this.$message({
-//         message: "添加成功",
-//         type: "success"
-//       });
-//       this.addUserVisible = false;
-//       this.addUserForm = {};
-//       this.getUsers();
-//     });
-// export const getEditUser = params => {
-//     return axios.get(`${baseUrl}/user/editUser`, {
-//         params: params
-//     })
-// }
-// export const getAddUser = params => {
-//     return axios.get(`${baseUrl}/user/addUser`, {
-//         params: params
-//     })
-// }
-// export const getDeleteOne = params => {
-//     return axios.get(`${baseUrl}/user/DeleteOne`, { params: params })
-// }
-// export const testApi = () => {
-//     return axios.get("/testApi/getkeywhereisddata?CITY_NAME=全省&S_id=B08I00136&callback=")
-// }
-
 import http from '../utils/http'
-// 
-
-// @parms resquest 请求地址 例如：http://197.82.15.15:8088/request/...
-
 let baseUrl = "http://localhost:8888"
-
-// get请求
-//登陆
+    // get请求
+    //登陆
 export function getAdminLogin(params) {
     return http.get(`${baseUrl}/admin/getadminlogin`, params)
 }
-// post请求
-export function postFormAPI(params) {
-    return http.post(`${baseUrl}/postForm.json`, params)
+//查询个人信息
+export function getadminparticulars(params) {
+    return http.get(`${baseUrl}/admin/getadminparticulars`, params)
+}
+//修改个人资料
+export function putAdminParticulars(params) {
+    return http.get(`${baseUrl}/admin/putadminparticulars`, params)
+}
+//查询总委托人数 总委托数 今天注册人数 当天发布委托人数
+export function getadmindata(params) {
+    return http.get(`${baseUrl}/admin/getadmindata`, params)
+}
+//查询所有身份的方法
+export function getadminrole(params) {
+    return http.get(`${baseUrl}/admin/getadminrole`, params)
+}
+// 添加新管理员
+export function postadmin(params) {
+    return http.post(`${baseUrl}/admin/postadmin`, params)
+}
+//超级管理员查看所有管理员 getadministration
+export function getadministration(params) {
+    return http.get(`${baseUrl}/admin/getadministration`, params)
+}
+//超级管理员修改管理员的信息putadministratormessage
+export function putadministratormessage(params) {
+    return http.get(`${baseUrl}/admin/putadministratormessage`, params)
+}
+//退出登录
+export function exit(params) {
+    return http.get(`${baseUrl}/admin/exit`, params)
+}
+//用户注册审核getnewuser
+export function getnewuser(params) {
+    return http.get(`${baseUrl}/admin/getnewuser`, params)
+}
+//委托监控 getentrust
+export function getentrust(params) {
+    return http.get(`${baseUrl}/admin/getentrust`, params)
+}
+//用户注册审核  确认按钮 getlogincheck
+export function getlogincheck(params) {
+    return http.get(`${baseUrl}/admin/getlogincheck`, params)
+}
+//查看用户注册详情 getuser
+export function getuser(params) {
+    return http.get(`${baseUrl}/admin/getuser`, params)
+}
+//查询保险公司 
+export function select(params) {
+    return http.get(`${baseUrl}/insurance/select`, params)
 }
 //页面中
 // import {getListAPI,postFormAPI, putSomeAPI, deleteListAPI} from '@/api/api'

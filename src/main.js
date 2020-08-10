@@ -11,6 +11,7 @@ import "babel-polyfill";
 import store from './store'
 import './assets/icon/iconfont.css'
 import common from './utils/common'
+
 ////import Mock from './mock/mock'
 Vue.config.productionTip = false
 Vue.use(ElementUI, {
@@ -18,6 +19,7 @@ Vue.use(ElementUI, {
 });
 Vue.prototype.common = common;
 Vue.prototype.$axios = axios;
+
 //Mock.bootstrap();
 //使用钩子函数对路由进行权限跳转
 router.beforeEach((to, from, next) => {

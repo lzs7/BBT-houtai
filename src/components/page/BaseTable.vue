@@ -46,7 +46,7 @@
       </el-table>
     </div>
     <!-- 弹窗 -->
-    <el-dialog title="委托详情" :visible.sync="dialogFormVisible" center>
+    <el-dialog title="委托详情" :visible.sync="dialogFormVisible" center width="60%">
       <el-table :data="tableData1" style="width: 100%" >
         <el-table-column prop="date" label="委托人" fixed="left" width="120">
           <template slot-scope="scope">
@@ -71,7 +71,7 @@
         <el-table-column prop="huantiam" label="还单时间"></el-table-column>
         <el-table-column prop="xianzhong" label="投保险种"></el-table-column>
         <el-table-column prop="beizhu" label="委托备注"></el-table-column>
-        <el-table-column label="操作" width="170" fixed="right">
+        <el-table-column label="操作" width="170">
           <template slot-scope="scope">
             <el-button size="mini" @click="edit(scope.row, scope)">编辑</el-button>
             <el-button size="mini" type="danger" @click="save(scope.row)">保存</el-button>
@@ -86,6 +86,7 @@
   </div>
 </template>
 <script>
+import {getentrust} from '../../api/api'
 export default {
   name: "basetable",
   data() {
@@ -158,6 +159,16 @@ export default {
       row.seen = false;
     }
 
+  },
+  mounted () {
+    let cookie = this.common.getCookie(); //获取cookie
+    let adminId = cookie.replace(/\"/g, "").split("#")[0]; //获取cookie下标为0的adminId
+    getentrust({
+      adminId : adminId
+    }).then((res) => {
+      console.log(res.data)
+    })
+    .catch((err) => console.log(err));
   }
 };
 </script>

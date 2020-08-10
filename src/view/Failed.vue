@@ -53,6 +53,7 @@
   </div>
 </template>
 <script>
+import {getnewuser} from '../api/api'
 export default {
   data() {
     return {
@@ -116,6 +117,17 @@ export default {
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
     }
+  },
+   mounted () {
+    let cookie = this.common.getCookie(); //获取cookie
+    let adminId = cookie.replace(/\"/g, "").split("#")[0]; //获取cookie下标为0的adminId
+    getnewuser({
+      adminId : adminId,
+      userState : 2
+    }).then((res) => {
+      console.log(res.data)
+    })
+    .catch((err) => console.log(err));
   }
 };
 </script>

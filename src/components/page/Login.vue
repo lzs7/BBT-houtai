@@ -4,14 +4,14 @@
       <div class="ms-title">后台管理系统</div>
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="ms-content">
         <el-form-item prop="username">
-          <el-input v-model="ruleForm.adminAccount" placeholder="username">
+          <el-input v-model="ruleForm.adminAccount" placeholder="请输入账号">
             <el-button slot="prepend" icon="iconfont icon-crmzhanghao"></el-button>
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input
             type="password"
-            placeholder="password"
+            placeholder="请输入密码"
             v-model="ruleForm.adminPassword"
             @keyup.enter.native="submitForm('ruleForm')"
           >
@@ -56,11 +56,11 @@ export default {
             .then((res) => {
               console.log(res);
               if (res.data.code == 200) {
+                console.log(11111)
                 let cookie = this.common.getCookie();
                 let userId = cookie.replace(/\"/g, "").split("#")[1];
                 localStorage.setItem('ms_username',userId);
                 console.log(userId);
-                console.log(111);
                 this.$router.push({ path: "/" });
               }
             })
