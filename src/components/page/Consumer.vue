@@ -2,7 +2,7 @@
   <div class="add">
     <el-tabs type="border-card" style="height:400px">
       <el-tab-pane label="未审核">
-        <el-table :data="tableData" border style="width: 100%">
+        <el-table :data="tableData">
           <el-table-column prop="name" label="代理人姓名" width="200"></el-table-column>
           <el-table-column prop="danhao" label="大家保险保单号" width="200"></el-table-column>
           <el-table-column prop="sqtime" label="消费卡申请时间" width="200"></el-table-column>

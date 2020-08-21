@@ -57,6 +57,10 @@ export function getuser(params) {
 export function select(params) {
     return http.get(`${baseUrl}/insurance/select`, params)
 }
+//查看委托详情 getentrustId
+export function getentrustId(params) {
+    return http.get(`${baseUrl}/admin/getentrustId`, params)
+}
 //页面中
 // import {getListAPI,postFormAPI, putSomeAPI, deleteListAPI} from '@/api/api'
 

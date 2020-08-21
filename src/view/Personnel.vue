@@ -22,6 +22,7 @@
         :background="background"
         :layout="layout"
         :page-sizes="pageSizes"
+        :page-size="pageSize"
         :total="total"
         v-bind="$attrs"
         @size-change="handleSizeChange"
@@ -91,7 +92,7 @@ export default {
       page: 1,
       limit: 20,
       pageSizes: ['',10],
-      pageSize:"pageSize",
+      pageSize:0,
       layout: "total, sizes, prev, pager, next",
       background: true,
       autoScroll: true,

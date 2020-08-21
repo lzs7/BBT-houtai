@@ -2,7 +2,7 @@
   <div class="add">
     <el-tabs type="border-card" style="height:400px">
       <el-tab-pane label="未审核">
-        <el-table :data="tableData" border style="width: 100%">
+        <el-table :data="tableData" style="width: 100%">
           <el-table-column prop="name" label="代理人姓名" width="200"></el-table-column>
           <el-table-column prop="kahao" label="人车生活卡号" width="200"></el-table-column>
           <el-table-column prop="sqtime" label="和豆申请时间" width="200"></el-table-column>
@@ -16,7 +16,7 @@
         </el-table>
       </el-tab-pane>
       <el-tab-pane label="审核通过">
-        <el-table :data="tableData1" border style="width: 100%">
+        <el-table :data="tableData1" style="width: 100%">
           <el-table-column prop="name" label="代理人姓名" width="200"></el-table-column>
           <el-table-column prop="kahao" label="人车生活卡号" width="200"></el-table-column>
           <el-table-column prop="sqtime" label="和豆申请时间" width="200"></el-table-column>
@@ -26,7 +26,7 @@
         </el-table>
       </el-tab-pane>
       <el-tab-pane label="信息错误">
-        <el-table :data="tableData2" border style="width: 100%">
+        <el-table :data="tableData2" style="width: 100%">
           <el-table-column prop="name" label="代理人姓名" width="200"></el-table-column>
           <el-table-column prop="kahao" label="人车生活卡号" width="200"></el-table-column>
           <el-table-column prop="sqtime" label="和豆申请时间" width="200"></el-table-column>
