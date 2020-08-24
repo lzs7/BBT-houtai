@@ -1,12 +1,18 @@
 <template>
   <div class="add">
+    <!-- 消费卡 -->
     <el-tabs type="border-card" style="height:400px">
       <el-tab-pane label="未审核">
-        <el-table :data="tableData">
-          <el-table-column prop="name" label="代理人姓名" width="200"></el-table-column>
-          <el-table-column prop="danhao" label="大家保险保单号" width="200"></el-table-column>
-          <el-table-column prop="sqtime" label="消费卡申请时间" width="200"></el-table-column>
-          <el-table-column prop="cltime" label="审核时间" width="200"></el-table-column>
+        <el-table :data="tabledata">
+          <el-table-column prop="userName" label="代理人姓名" width="200"></el-table-column>
+          <el-table-column prop="consumeNumber" label="大家保险保单号" width="200"></el-table-column>
+          <el-table-column prop="consumeTime" label="消费卡申请时间" width="200"></el-table-column>
+          <el-table-column
+            prop="newconsumeTime"
+            label="审核时间"
+            width="200"
+            :formatter="newconsumeTime"
+          ></el-table-column>
           <el-table-column label="操作" width="200">
             <template slot-scope="scope">
               <el-button size="mini" @click="edit(scope.row, scope)">确定</el-button>
@@ -16,99 +22,89 @@
         </el-table>
       </el-tab-pane>
       <el-tab-pane label="审核通过">
-        <el-table :data="tableData1" border style="width: 100%">
-          <el-table-column prop="name" label="代理人姓名" width="200"></el-table-column>
-          <el-table-column prop="danhao" label="大家保险保单号" width="200"></el-table-column>
-          <el-table-column prop="sqtime" label="消费卡申请时间" width="200"></el-table-column>
-          <el-table-column prop="cltime" label="审核时间" width="200"></el-table-column>
-          <el-table-column prop="gname" label="管理员姓名" width="200"></el-table-column>
-          <el-table-column prop="jieguo" label="处理结果" width="200"></el-table-column>
-        </el-table>
+        <pass></pass>
       </el-tab-pane>
       <el-tab-pane label="信息错误">
-        <el-table :data="tableData2" border style="width: 100%">
-          <el-table-column prop="name" label="代理人姓名" width="200"></el-table-column>
-          <el-table-column prop="danhao" label="大家保险保单号" width="200"></el-table-column>
-          <el-table-column prop="sqtime" label="消费卡申请时间" width="200"></el-table-column>
-          <el-table-column prop="cltime" label="审核时间" width="200"></el-table-column>
-          <el-table-column prop="gname" label="管理员姓名" width="200"></el-table-column>
-          <el-table-column prop="jieguo" label="处理结果" width="200"></el-table-column>
-        </el-table>
+        <error></error>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
+import pass from "../../view/ConsumerPass";
+import error from '../../view/ConsumerError'
+import { getallconsume } from "../../api/api";
+import { getcheckconsume } from '../../api/api'
 export default {
+  inject: ["reload"],
   data() {
     return {
-      tableData: [
-        {
-          name: "王小虎",
-          danhao: "1234567",
-          sqtime: "2020-07-21",
-          cltime: "无"
-        },
-        {
-          name: "王虎",
-          danhao: "6543211",
-          sqtime: "2020-07-21",
-          cltime: "无"
-        },
-        {
-          name: "王二虎",
-          danhao: "9876541",
-          sqtime: "2020-07-21",
-          cltime: "无"
-        }
-      ],
-      tableData1: [
-        {
-          name: "王小虎",
-          danhao: "1234567",
-          sqtime: "2020-07-21",
-          cltime: "2020-07-21",
-          gname: "lizesheng",
-          jieguo: "审核通过"
-        },
-        {
-          name: "王er虎",
-          danhao: "1234567",
-          sqtime: "2020-07-21",
-          cltime: "2020-07-21",
-          gname: "lizesheng",
-          jieguo: "审核通过"
-        }
-      ],
-       tableData2: [
-        {
-          name: "王小虎",
-          danhao: "1234567",
-          sqtime: "2020-07-21",
-          cltime: "2020-07-21",
-          gname: "lizesheng",
-          jieguo: "信息错误"
-        },
-        {
-          name: "王er虎",
-          danhao: "1234567",
-          sqtime: "2020-07-21",
-          cltime: "2020-07-21",
-          gname: "lizesheng",
-          jieguo: "信息错误"
-        }
-      ]
+      tabledata: [],
+      adminId: "",
     };
   },
+  components: {
+    pass,
+    error
+  },
   methods: {
-    edit(row, index) {
-      row.seen = true;
+    //确认按钮
+    edit(row) {
+      console.log(row)
+      getcheckconsume ({
+        consumeId : row.consumeId,
+        adminId : this.adminId,
+        index : 1
+      }) .then((res) =>{
+        console.log(res.data)
+        if (res.data.code == 200) {
+            this.$message({
+              showClose: true,
+              message: "确认成功",
+              type: "success",
+            });
+            this.reload();
+          }
+      })
+      .catch((err) => console.log(err));
     },
-    save(row, index) {
-      row.seen = false;
-    }
-  }
+    save(row) {
+       getcheckconsume ({
+        consumeId : row.consumeId,
+        adminId : this.adminId,
+        index : 2
+      }) .then((res) =>{
+        console.log(res.data)
+        if (res.data.code == 200) {
+            this.$message({
+              showClose: true,
+              message: "处理成功",
+              type: "success",
+            });
+            this.reload();
+          }
+      })
+      .catch((err) => console.log(err));
+    },
+    newconsumeTime(row) {
+      return row.newconsumeTime == null ? "无" : row.newconsumeTime;
+    },
+  },
+  mounted() {
+    var that=this
+    let cookie = this.common.getCookie(); //获取cookie
+    that.adminId = cookie.replace(/\"/g, "").split("#")[0]; //获取cookie下标为0的adminId
+    getallconsume({
+      adminId: that.adminId,
+      consumeState: 0,
+    })
+      .then((res) => {
+        console.log(res.data.data);
+        that.tabledata = res.data.data;
+      })
+      .catch((err) => console.log(err));
+  },
 };
 </script>
 

@@ -61,6 +61,22 @@ export function select(params) {
 export function getentrustId(params) {
     return http.get(`${baseUrl}/admin/getentrustId`, params)
 }
+//查询和豆申请数据 getallbeans
+export function getallbeans(params) {
+    return http.get(`${baseUrl}/admin/getallbeans`, params)
+}
+//处理和豆申请的方法 getcheckbeans
+export function getcheckbeans(params) {
+    return http.get(`${baseUrl}/admin/getcheckbeans`, params)
+}
+//查询消费卡申请 getallconsume
+export function getallconsume(params) {
+    return http.get(`${baseUrl}/admin/getallconsume`, params)
+}
+//处理消费卡的方法 getcheckconsume
+export function getcheckconsume(params) {
+    return http.get(`${baseUrl}/admin/getcheckconsume`, params)
+}
 //页面中
 // import {getListAPI,postFormAPI, putSomeAPI, deleteListAPI} from '@/api/api'
 

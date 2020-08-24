@@ -3,10 +3,10 @@
     <el-tabs type="border-card" style="height:400px">
       <el-tab-pane label="未审核">
         <el-table :data="tableData" style="width: 100%">
-          <el-table-column prop="name" label="代理人姓名" width="200"></el-table-column>
-          <el-table-column prop="kahao" label="人车生活卡号" width="200"></el-table-column>
-          <el-table-column prop="sqtime" label="和豆申请时间" width="200"></el-table-column>
-          <el-table-column prop="cltime" label="处理时间" width="200"></el-table-column>
+          <el-table-column prop="userName" label="代理人姓名" width="200"></el-table-column>
+          <el-table-column prop="cardNumber" label="人车生活卡号" width="200"></el-table-column>
+          <el-table-column prop="beansTime" label="和豆申请时间" width="200"></el-table-column>
+          <el-table-column prop="newbeansTime" label="处理时间" width="200" :formatter="newbeansTime"></el-table-column>
           <el-table-column label="操作" width="200">
             <template slot-scope="scope">
               <el-button size="mini" @click="edit(scope.row, scope)">确定</el-button>
@@ -16,99 +16,92 @@
         </el-table>
       </el-tab-pane>
       <el-tab-pane label="审核通过">
-        <el-table :data="tableData1" style="width: 100%">
-          <el-table-column prop="name" label="代理人姓名" width="200"></el-table-column>
-          <el-table-column prop="kahao" label="人车生活卡号" width="200"></el-table-column>
-          <el-table-column prop="sqtime" label="和豆申请时间" width="200"></el-table-column>
-          <el-table-column prop="cltime" label="处理时间" width="200"></el-table-column>
-          <el-table-column prop="gname" label="管理员姓名" width="200"></el-table-column>
-          <el-table-column prop="jieguo" label="处理结果" width="200"></el-table-column>
-        </el-table>
+        <approved></approved>
       </el-tab-pane>
       <el-tab-pane label="信息错误">
-        <el-table :data="tableData2" style="width: 100%">
-          <el-table-column prop="name" label="代理人姓名" width="200"></el-table-column>
-          <el-table-column prop="kahao" label="人车生活卡号" width="200"></el-table-column>
-          <el-table-column prop="sqtime" label="和豆申请时间" width="200"></el-table-column>
-          <el-table-column prop="cltime" label="处理时间" width="200"></el-table-column>
-          <el-table-column prop="gname" label="管理员姓名" width="200"></el-table-column>
-          <el-table-column prop="jieguo" label="处理结果" width="200"></el-table-column>
-        </el-table>
+        <wrong></wrong>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
+import { getallbeans } from "../../api/api";
+import { getcheckbeans } from "../../api/api";
+import approved from "../../view/Approved";
+import wrong from "../../view/Wrong";
 export default {
+  inject: ["reload"],
   data() {
     return {
-      tableData: [
-        {
-          name: "王小虎",
-          kahao: "1234567",
-          sqtime: "2020-07-21",
-          cltime: "无"
-        },
-        {
-          name: "王虎",
-          kahao: "6543211",
-          sqtime: "2020-07-21",
-          cltime: "无"
-        },
-        {
-          name: "王二虎",
-          kahao: "9876541",
-          sqtime: "2020-07-21",
-          cltime: "无"
-        }
-      ],
-      tableData1: [
-        {
-          name: "王小虎",
-          kahao: "1234567",
-          sqtime: "2020-07-21",
-          cltime: "2020-07-21",
-          gname: "lizesheng",
-          jieguo: "审核通过"
-        },
-        {
-          name: "王er虎",
-          kahao: "1234567",
-          sqtime: "2020-07-21",
-          cltime: "2020-07-21",
-          gname: "lizesheng",
-          jieguo: "审核通过"
-        }
-      ],
-       tableData2: [
-        {
-          name: "王小虎",
-          kahao: "1234567",
-          sqtime: "2020-07-21",
-          cltime: "2020-07-21",
-          gname: "lizesheng",
-          jieguo: "信息错误"
-        },
-        {
-          name: "王er虎",
-          kahao: "1234567",
-          sqtime: "2020-07-21",
-          cltime: "2020-07-21",
-          gname: "lizesheng",
-          jieguo: "信息错误"
-        }
-      ]
+      tableData: [],
+      adminId: "",
     };
   },
+  components: {
+    approved,
+    wrong,
+  },
   methods: {
-    edit(row, index) {
-      row.seen = true;
+    edit(row) {
+      console.log(row);
+      let beansId = row.beansId;
+      getcheckbeans({
+        adminId: this.adminId,
+        beansId: beansId,
+        index: 1,
+      })
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.code == 200) {
+            this.$message({
+              showClose: true,
+              message: "确认成功",
+              type: "success",
+            });
+            this.reload();
+          }
+        })
+        .catch((err) => console.log(err));
     },
-    save(row, index) {
-      row.seen = false;
-    }
-  }
+    save(row) {
+      console.log(row);
+      let beansId = row.beansId;
+      getcheckbeans({
+        adminId: this.adminId,
+        beansId: beansId,
+        index: 2,
+      })
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.code == 200) {
+            this.$message({
+              showClose: true,
+              message: "处理成功",
+              type: "success",
+            });
+            this.reload();
+          }
+        })
+        .catch((err) => console.log(err));
+    },
+    newbeansTime(row) {
+      return row.newbeansTime == null ? "无" : row.newbeansTime;
+    },
+  },
+  mounted() {
+    let cookie = this.common.getCookie(); //获取cookie
+    this.adminId = cookie.replace(/\"/g, "").split("#")[0]; //获取cookie下标为0的adminId
+    getallbeans({
+      adminId: this.adminId,
+      beansState: 0,
+    })
+      .then((res) => {
+        console.log(res.data);
+        this.tableData = res.data.data;
+      })
+      .catch((err) => console.log(err));
+  },
 };
 </script>
 
