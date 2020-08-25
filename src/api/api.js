@@ -77,6 +77,10 @@ export function getallconsume(params) {
 export function getcheckconsume(params) {
     return http.get(`${baseUrl}/admin/getcheckconsume`, params)
 }
+//筛选委托的方法 getscreenentrust
+export function getscreenentrust(params) {
+    return http.get(`${baseUrl}/admin/getscreenentrust`, params)
+}
 //页面中
 // import {getListAPI,postFormAPI, putSomeAPI, deleteListAPI} from '@/api/api'
 

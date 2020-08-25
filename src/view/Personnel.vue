@@ -17,12 +17,14 @@
         </template>
       </el-table-column>
     </el-table>
+    <!-- 分页 -->
     <div :class="{'hidden':hidden}" class="pagination-container">
       <el-pagination
         :background="background"
         :layout="layout"
         :page-sizes="pageSizes"
-        :page-size="pageSize"
+        :page-size="pagesize"
+        :current-page="currentPage"
         :total="total"
         v-bind="$attrs"
         @size-change="handleSizeChange"
@@ -35,7 +37,7 @@
         <el-form-item label="管理员姓名" :label-width="formLabelWidth">
           <el-input v-model="form.adminName" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="管理员电话" :label-width="formLabelWidth"  prop="adminPhone">
+        <el-form-item label="管理员电话" :label-width="formLabelWidth" prop="adminPhone">
           <el-input v-model.number="form.adminPhone" type="number"></el-input>
         </el-form-item>
         <el-form-item label="管理员账号" :label-width="formLabelWidth">
@@ -78,22 +80,23 @@
 <script>
 import { getadministration } from "../api/api";
 import { getadminrole } from "../api/api";
-import {putadministratormessage} from '../api/api'
+import { putadministratormessage } from "../api/api";
 export default {
   inject: ["reload"],
-  props: ['selectTable'],//接受父组件穿过来的值
+  props: ["selectTable"], //接受父组件穿过来的值
   data() {
     return {
       tableData: [],
       dialogFormVisible: false,
       form: {},
       formLabelWidth: "120px",
-      total: 0,
+      total: 0, //总条数
       page: 1,
       limit: 20,
-      pageSizes: ['',10],
-      pageSize:0,
+      pageSizes: [5, 10], //选择每页显示条数
+      pagesize: 0, //每页显示条数
       layout: "total, sizes, prev, pager, next",
+      currentPage: 1, //默认开始页面
       background: true,
       autoScroll: true,
       hidden: false,
@@ -115,15 +118,17 @@ export default {
           { required: true, message: "请选择状态", trigger: "change" },
         ],
       },
-      newAdminId:'',
+      newAdminId: "",
+      adminId:'',
+      adminRoleId:''
     };
   },
   methods: {
     handleEdit(row) {
       this.form = row;
       console.log(this.form);
-      this.newAdminId=row.adminId
-      console.log(this.newAdminId)
+      this.newAdminId = row.adminId;
+      console.log(this.newAdminId);
       this.$set(this.form, "adminPassword", "");
       this.$set(this.form, "adminState", "");
       this.dialogFormVisible = true;
@@ -132,24 +137,25 @@ export default {
       //确定
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          console.log(this.form)
-          if(this.form.adminPassword==""){
+          console.log(this.form);
+          if (this.form.adminPassword == "") {
             this.$set(this.form, "adminPassword", null);
           }
-          let data=this.form
+          let data = this.form;
           // console.log("data:"+this.form)
           this.$set(this.form, "newAdminId", this.newAdminId);
-          putadministratormessage(data).then((res) => {
-            if(res.data.code==200){
+          putadministratormessage(data)
+            .then((res) => {
+              if (res.data.code == 200) {
                 this.$message({
                   showClose: true,
                   message: "修改成功",
                   type: "success",
                 });
                 this.reload();
-            }
-          })
-          .catch((err) => console.log(err));
+              }
+            })
+            .catch((err) => console.log(err));
         } else {
           console.log("error submit!!");
           return false;
@@ -161,36 +167,53 @@ export default {
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
+      this.currentPage = val;
+      let index = val;
+      getadministration({
+        adminId: this.adminId,
+        adminRoleId: this.adminRoleId,
+        index: index,
+      })
+        .then((res) => {
+          console.log(res.data);
+          this.tableData = res.data.data;
+          this.total = res.data.count; //总条数
+          this.pagesize = res.data.size; //每页显示多少条
+        })
+        .catch((err) => console.log(err));
     },
   },
   mounted() {
     let cookie = this.common.getCookie(); //获取cookie
-    let adminId = cookie.replace(/\"/g, "").split("#")[0]; //获取cookie下标为0的adminId
-    let adminRoleId = cookie.replace(/\"/g, "").split("#")[1];
+    this.adminId = cookie.replace(/\"/g, "").split("#")[0]; //获取cookie下标为0的adminId
+    this.adminRoleId = cookie.replace(/\"/g, "").split("#")[1];
     getadministration({
-      adminId: adminId,
-      adminRoleId: adminRoleId,
+      adminId: this.adminId,
+      adminRoleId: this.adminRoleId,
+      index: 1,
     })
       .then((res) => {
-        console.log(res.data)
+        console.log(res.data);
         this.tableData = res.data.data;
-        this.total=res.data.count//总条数
-        this.pageSize=res.data.size//每页显示多少条
+        this.total = res.data.count; //总条数
+        this.pagesize = res.data.size; //每页显示多少条
       })
       .catch((err) => console.log(err));
     //获取身份
     getadminrole()
       .then((res) => {
-        this.adminRoleId = res.data.data;    
+        this.adminRoleId = res.data.data;
       })
       .catch((err) => console.log(err));
   },
-   watch:{     //监听传值的变化，
-    selectTable: function(a,b){     //a是新值，b是旧值
-      console.log(a)
-      this.tableData=a
-    }
-  }
+  watch: {
+    //监听传值的变化，
+    selectTable: function (a, b) {
+      //a是新值，b是旧值
+      console.log(a);
+      this.tableData = a;
+    },
+  },
 };
 </script>
 <style scoped>

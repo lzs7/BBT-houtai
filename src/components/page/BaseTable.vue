@@ -1,34 +1,56 @@
 <template>
   <div class="table">
-    <span>委托状态：</span>
-    <el-select v-model="list.zhuantai" placeholder="委托状态">
-      <el-option v-for="(item,index) in entrustState" :key="index" :label="item.label" :value="item.value"></el-option>
-    </el-select>
-    <span style="margin-left:10px">保险公司：</span>
-    <el-select v-model="list.insuranceCompanyName" placeholder="选择保险公司">
-        <el-option
-          v-for="(item,index) in baoxian"
-          :key="index"
-          :label="item.insuranceCompanyName"
-          :value="item.insuranceCompanyId"
-        ></el-option>
-      </el-select>
-    <span style="margin-left:10px">委托人电话：</span>
-    <el-input v-model="list.phone" placeholder="手机号码" style="width: 200px;"></el-input>
-    <span style="margin-left:10px">车牌号码：</span>
-    <el-input v-model="list.chepai" placeholder="车牌号码" style="width: 200px;"></el-input>
-    <div style="margin-top:10px">
-      日期选择：
-      <el-date-picker
-        v-model="list.value"
-        type="datetimerange"
-        range-separator="-"
-        start-placeholder="委托开始日期"
-        end-placeholder="委托结束日期"
-      ></el-date-picker>
+    <div style="display:flex;width:100%">
+      <div>
+        <span>委托状态：</span>
+        <el-select v-model="list.entrustState" placeholder="委托状态">
+          <el-option
+            v-for="(item,index) in entrustState"
+            :key="index"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+        <span style="margin-left:10px">保险公司：</span>
+        <el-select v-model="list.insuranceCompanyId" placeholder="选择保险公司">
+          <el-option
+            v-for="(item,index) in baoxian"
+            :key="index"
+            :label="item.insuranceCompanyName"
+            :value="item.insuranceCompanyId"
+          ></el-option>
+        </el-select>
+      </div>
+      <div>
+        <span style="margin-left:10px">委托人电话：</span>
+        <el-input v-model="list.userPhone" placeholder="手机号码" style="width: 200px;"></el-input>
+      </div>
+    </div>
+    <div style="display:flex;margin-top:10px;width:100%">
+      <div>
+        <span>车牌号码：</span>
+        <el-input v-model="list.licensePlateNumber" placeholder="车牌号码" style="width: 200px;"></el-input>
+      </div>
+      <div style="margin-left:10px">
+        <span>日期选择：</span>
+        <el-date-picker
+          v-model="list.startTime"
+          type="date"
+          placeholder="开始日期"
+          format="yyyy 年 MM 月 dd 日"
+          value-format="yyyy-MM-dd"
+        ></el-date-picker>-
+        <el-date-picker
+          v-model="list.endTime"
+          type="date"
+          placeholder="结束日期"
+          format="yyyy 年 MM 月 dd 日"
+          value-format="yyyy-MM-dd"
+        ></el-date-picker>
+      </div>
     </div>
     <div style="width:200px;margin-top:20px">
-      <el-button type="primary" icon="el-icon-search">筛选</el-button>
+      <el-button type="primary" icon="el-icon-search" @click="shaixuan(list)">筛选</el-button>
     </div>
     <div style="margin-top:10px">
       <el-table :data="tableData" border style="width: 100%">
@@ -48,13 +70,14 @@
         </el-table-column>
       </el-table>
     </div>
-    <!-- 翻页 -->
+    <!-- 分页 -->
     <div :class="{'hidden':hidden}" class="pagination-container">
       <el-pagination
         :background="background"
         :layout="layout"
         :page-sizes="pageSizes"
         :page-size="pagesize"
+        :current-page="currentPage"
         :total="total"
         v-bind="$attrs"
         @size-change="handleSizeChange"
@@ -103,27 +126,30 @@
 import { getentrust } from "../../api/api";
 import { getentrustId } from "../../api/api";
 import { select } from "../../api/api";
+import { getscreenentrust } from "../../api/api";
 export default {
   name: "basetable",
   data() {
     return {
       list: {
-        zhuangtai: "",
-        baoxian: "",
-        phone: "",
-        chepai: "",
-        value: "",
+        entrustState: "",
+        insuranceCompanyId: "",
+        userPhone: "",
+        licensePlateNumber: "",
+        startTime: "",
+        endTime: "",
       },
       tableData: [],
       tableData1: [],
       dialogFormVisible: false,
       adminId: "",
-      total: 0,
+      total: 0, //总条数
       page: 1,
       limit: 20,
-      pageSizes: [5, 10],
-      pagesize: 0,
+      pageSizes: [5, 10], //选择每页显示条数
+      pagesize: 0, //每页显示条数
       layout: "total, sizes, prev, pager, next",
+      currentPage: 1, //默认开始页面
       background: true,
       autoScroll: true,
       hidden: false,
@@ -136,15 +162,49 @@ export default {
         { value: 4, label: "无人接单" },
         { value: 5, label: "已撤单" },
         { value: 6, label: "还单结束" },
-      ]
+      ],
     };
   },
   methods: {
+    // 筛选功能
+    shaixuan(val) {
+      console.log(val);
+      let data = val;
+      this.$set(data, "adminId", this.adminId);
+      getscreenentrust(data)
+        .then((res) => {
+          console.log(res.data);
+          this.tableData = res.data.data;
+          this.total = res.data.count; //总条数
+          this.pagesize = res.data.size; //每页显示多少条
+          if (res.data.code == 200) {
+            this.$notify({
+              title: "成功",
+              message: "查询成功",
+              type: "success",
+            });
+          }
+        })
+        .catch((err) => console.log(err));
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
+      this.currentPage = val;
+      let index = val;
+      getentrust({
+        adminId: this.adminId,
+        index: index,
+      })
+        .then((res) => {
+          console.log(res.data);
+          this.tableData = res.data.data;
+          this.total = res.data.count; //总条数
+          this.pagesize = res.data.size; //每页显示多少条
+        })
+        .catch((err) => console.log(err));
     },
     handleEdit(row) {
       //打开弹窗
@@ -166,12 +226,12 @@ export default {
         })
         .catch((err) => console.log(err));
     },
-    edit(row, index) {
-      row.zz = true;
-    },
-    save(row, index) {
-      row.zz = false;
-    },
+    // edit(row, index) {
+    //   row.zz = true;
+    // },
+    // save(row, index) {
+    //   row.zz = false;
+    // },
     //判断
     userTypeList(row) {
       return row.finallyUserId == null ? "暂无接单人员" : row.finallyUserId;
@@ -210,6 +270,7 @@ export default {
     this.adminId = cookie.replace(/\"/g, "").split("#")[0]; //获取cookie下标为0的adminId
     getentrust({
       adminId: this.adminId,
+      index: 1,
     })
       .then((res) => {
         console.log(res.data);

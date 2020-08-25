@@ -1,26 +1,21 @@
 <template>
   <div class="add">
-    <el-tabs type="border-card" style="height:400px">
-      <el-tab-pane label="未审核">
-        <el-table :data="tableData" style="width: 100%">
-          <el-table-column prop="userName" label="代理人姓名" width="200"></el-table-column>
-          <el-table-column prop="cardNumber" label="人车生活卡号" width="200"></el-table-column>
-          <el-table-column prop="beansTime" label="和豆申请时间" width="200"></el-table-column>
-          <el-table-column prop="newbeansTime" label="处理时间" width="200" :formatter="newbeansTime"></el-table-column>
-          <el-table-column label="操作" width="200">
-            <template slot-scope="scope">
-              <el-button size="mini" @click="edit(scope.row, scope)">确定</el-button>
-              <el-button size="mini" type="danger" @click="save(scope.row)">信息错误</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+    <el-tabs
+      type="border-card"
+      style="min-height:400px"
+      v-model="activeName"
+      @tab-click="handleClick"
+    >
+      <el-tab-pane label="未审核" name="1">
+        <reviewed></reviewed>
       </el-tab-pane>
-      <el-tab-pane label="审核通过">
-        <approved></approved>
+      <el-tab-pane label="审核通过" name="2">
+        <approved :tabledata1='this.tabledata1'></approved>
       </el-tab-pane>
-      <el-tab-pane label="信息错误">
-        <wrong></wrong>
+      <el-tab-pane label="信息错误" name="3">
+        <wrong :tabledata2='this.tabledata2'></wrong>
       </el-tab-pane>
+      
     </el-tabs>
   </div>
 </template>
@@ -30,77 +25,69 @@ import { getallbeans } from "../../api/api";
 import { getcheckbeans } from "../../api/api";
 import approved from "../../view/Approved";
 import wrong from "../../view/Wrong";
+import reviewed from '../../view/Notreviewed'
 export default {
   inject: ["reload"],
   data() {
     return {
       tableData: [],
+      tabledata1:[],
+      tabledata2:[],
       adminId: "",
+      activeName: "1",
     };
   },
   components: {
     approved,
     wrong,
+    reviewed
   },
   methods: {
-    edit(row) {
-      console.log(row);
-      let beansId = row.beansId;
-      getcheckbeans({
+    // 标签点击事件
+    handleClick(tab, event) {
+      console.log(tab, event);
+      if (tab.name == "2") {
+        // 触发‘配置管理’事件
+        this.two();
+      } else if (tab.name == "3") {
+        // 触发‘用户管理’事件
+        this.three();
+      }
+    },
+    /**
+     * 触发‘用户管理’事件 并发送请求 将数据传给子组件
+     */
+    two() {
+      getallbeans({
         adminId: this.adminId,
-        beansId: beansId,
+        beansState: 1,
         index: 1,
       })
         .then((res) => {
           console.log(res.data);
-          if (res.data.code == 200) {
-            this.$message({
-              showClose: true,
-              message: "确认成功",
-              type: "success",
-            });
-            this.reload();
-          }
+          this.tabledata1 = res.data;
         })
         .catch((err) => console.log(err));
     },
-    save(row) {
-      console.log(row);
-      let beansId = row.beansId;
-      getcheckbeans({
+    /**
+     * 触发‘配置管理’事件并发送请求 将数据传给子组件
+     */
+    three() {
+      getallbeans({
         adminId: this.adminId,
-        beansId: beansId,
-        index: 2,
+        beansState: 2,
+        index: 1,
       })
         .then((res) => {
           console.log(res.data);
-          if (res.data.code == 200) {
-            this.$message({
-              showClose: true,
-              message: "处理成功",
-              type: "success",
-            });
-            this.reload();
-          }
+          this.tabledata2 = res.data;
         })
         .catch((err) => console.log(err));
-    },
-    newbeansTime(row) {
-      return row.newbeansTime == null ? "无" : row.newbeansTime;
     },
   },
   mounted() {
     let cookie = this.common.getCookie(); //获取cookie
     this.adminId = cookie.replace(/\"/g, "").split("#")[0]; //获取cookie下标为0的adminId
-    getallbeans({
-      adminId: this.adminId,
-      beansState: 0,
-    })
-      .then((res) => {
-        console.log(res.data);
-        this.tableData = res.data.data;
-      })
-      .catch((err) => console.log(err));
   },
 };
 </script>

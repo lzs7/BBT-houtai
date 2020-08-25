@@ -37,6 +37,7 @@ export default {
     };
   },
   methods: {
+    // 筛选功能
     search(val) {
       let data=val
       console.log(data)
