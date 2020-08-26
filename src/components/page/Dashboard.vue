@@ -99,7 +99,6 @@ export default {
 .tite {
   position: absolute;
   top: 25%;
-
   width: 100%;
   text-align: center;
 }
