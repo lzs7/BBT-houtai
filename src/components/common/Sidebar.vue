@@ -26,7 +26,11 @@
                   :index="threeItem.index+''"
                 >{{ threeItem.title }}</el-menu-item>
               </el-submenu>
-              <el-menu-item v-else :index="subItem.index+''" :key="subItem.index">{{ subItem.title }}</el-menu-item>
+              <el-menu-item
+                v-else
+                :index="subItem.index+''"
+                :key="subItem.index"
+              >{{ subItem.title }}</el-menu-item>
             </template>
           </el-submenu>
         </template>
@@ -53,23 +57,23 @@ export default {
         {
           icon: "iconfont icon-crmshouye",
           index: "dashboard",
-          title: "系统首页"
+          title: "系统首页",
         },
         {
           icon: "iconfont icon-crmzhuce",
           index: "tabs",
-          title: "用户注册审核"
+          title: "用户注册审核",
         },
-         {
+        {
           icon: "iconfont icon-crmcaidan",
           index: "table",
-          title: "委托监控"
-        }, 
+          title: "委托监控",
+        },
         {
           icon: "iconfont icon-crmguanliyuan",
           index: "administrators",
-          title: "人员管理"
-        }, 
+          title: "人员管理",
+        },
         // {
         //   icon: "iconfont icon-crmguanliyuan",
         //   index: "3",
@@ -129,12 +133,17 @@ export default {
         {
           icon: "iconfont icon-crmdouzi",
           index: "hedou",
-          title: "和豆申请"
+          title: "和豆申请",
         },
         {
           icon: "iconfont icon-crmhuiyuanchaxun_xiaofeiqia",
           index: "Consumer",
-          title: "消费卡申请"
+          title: "消费卡申请",
+        },
+        {
+          icon: "iconfont icon-crmtaizhangguanli",
+          index: "StandingBook",
+          title: "台账管理",
         },
         // {
         //   icon: "el-icon-rank",
@@ -166,7 +175,7 @@ export default {
         //     }
         //   ]
         // }
-      ]
+      ],
     };
   },
   methods: {
@@ -203,14 +212,14 @@ export default {
   computed: {
     onRoutes() {
       return this.$route.path.replace("/", "");
-    }
+    },
   },
   created() {
     // 通过 Event Bus 进行组件间通信，来折叠侧边栏
-    bus.$on("collapse", msg => {
+    bus.$on("collapse", (msg) => {
       this.collapse = msg;
     });
-  }
+  },
 };
 </script>
 

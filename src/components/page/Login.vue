@@ -21,7 +21,6 @@
         <div class="login-btn">
           <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
         </div>
-        <p class="login-tips">Tips : 用户名和密码随便填随便填。</p>
       </el-form>
     </div>
   </div>
@@ -56,12 +55,16 @@ export default {
             .then((res) => {
               console.log(res);
               if (res.data.code == 200) {
-                console.log(11111)
                 let cookie = this.common.getCookie();
                 let userId = cookie.replace(/\"/g, "").split("#")[1];
-                localStorage.setItem('ms_username',userId);
-                console.log(userId);
+                localStorage.setItem("ms_username", userId);
+                this.$message({
+                  message: "登陆成功",
+                  type: "success",
+                });
                 this.$router.push({ path: "/" });
+              }else if(res.data.code == 400) {
+                  this.$message.error('账号或密码错误');
               }
             })
             .catch((err) => console.log(err));

@@ -100,7 +100,7 @@ import { select } from "../api/api";
 export default {
   data() {
     return {
-       list: {
+      list: {
         userName: "",
         insuranceCompanyName: "",
         userPhone: "",
@@ -120,7 +120,7 @@ export default {
       page: 1,
       limit: 20,
       pageSizes: [5, 10],
-       pageSize: 0,
+      pageSize: 0,
       layout: "total, sizes, prev, pager, next",
       background: true,
       autoScroll: true,
@@ -160,13 +160,13 @@ export default {
     },
     // 筛选
     screen(val) {
-      console.log(11)
+      console.log(11);
       console.log(val);
       let data = val;
       let cookie = this.common.getCookie(); //获取cookie
       let adminId = cookie.replace(/\"/g, "").split("#")[0]; //获取cookie下标为0的adminId
       this.$set(data, "adminId", adminId);
-      this.$set(data, "userState", 2)
+      this.$set(data, "userState", 2);
       getnewuser(data)
         .then((res) => {
           console.log(res.data);
@@ -177,9 +177,9 @@ export default {
               message: "筛选成功",
               type: "success",
             });
-            this.tableData=this.shaixuan
-          }else if(res.data.code==null){
-            this.$message('暂无数据');
+            this.tableData = this.shaixuan;
+          } else if (res.data.code == null) {
+            this.$message("暂无数据");
           }
         })
         .catch((err) => console.log(err));
@@ -200,12 +200,12 @@ export default {
         this.pageSize = res.data.size; //每页显示多少条
       })
       .catch((err) => console.log(err));
-         //保险公司
-      select()
-        .then((res) => {
-          this.baoxian = res.data.data;
-        })
-        .catch((err) => console.log(err));
+    //保险公司
+    select()
+      .then((res) => {
+        this.baoxian = res.data.data;
+      })
+      .catch((err) => console.log(err));
   },
 };
 </script>

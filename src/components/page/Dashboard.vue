@@ -86,6 +86,7 @@ export default {
   border-radius: 4px;
   height: 200px;
   margin-top: 50px;
+  box-shadow: darkgrey 3px 3px 24px 3px;
 }
 .row-bg {
   padding: 10px 0;
@@ -99,7 +100,6 @@ export default {
 .tite {
   position: absolute;
   top: 25%;
-
   width: 100%;
   text-align: center;
 }

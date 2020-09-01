@@ -47,10 +47,10 @@ export default {
     handleClick(tab, event) {
       console.log(tab, event);
       if (tab.name == "2") {
-        // 触发‘配置管理’事件
+        // 触发‘审核通过’事件
         this.two();
       } else if (tab.name == "3") {
-        // 触发‘用户管理’事件
+        // 触发‘信息错误’事件
         this.three();
       }
     },

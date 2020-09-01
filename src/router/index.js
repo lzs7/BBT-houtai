@@ -99,6 +99,11 @@ export default new Router({
                     meta: { title: '消费卡申请' }
                 },
                 {
+                    path: '/StandingBook',
+                    component: resolve => require(['../components/page/StandingBook.vue'], resolve),
+                    meta: { title: '台账管理' }
+                },
+                {
                     // 拖拽列表组件
                     path: '/drag',
                     component: resolve => require(['../components/page/DragList.vue'], resolve),
