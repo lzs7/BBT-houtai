@@ -147,7 +147,7 @@ export default {
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  height: 70px;
+  height: 55px;
   font-size: 22px;
   color: #fff;
 }
@@ -155,12 +155,12 @@ export default {
   float: left;
   padding: 0 21px;
   cursor: pointer;
-  line-height: 70px;
+  line-height: 55px;
 }
 .header .logo {
   float: left;
   width: 250px;
-  line-height: 70px;
+  line-height: 55px;
 }
 .header-right {
   float: right;
@@ -168,7 +168,7 @@ export default {
 }
 .header-user-con {
   display: flex;
-  height: 70px;
+  height: 55px;
   align-items: center;
 }
 .btn-fullscreen {
