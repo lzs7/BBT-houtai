@@ -6,6 +6,7 @@
   "description": "",
   "glyphs": [
     {
+<<<<<<< HEAD
       "icon_id": "2060600",
       "name": "闭眼",
       "font_class": "biyan",
@@ -20,6 +21,8 @@
       "unicode_decimal": 58903
     },
     {
+=======
+>>>>>>> 6c9fb430bbceadc37600b7a600def8ca1a9704a9
       "icon_id": "10538953",
       "name": "台账管理",
       "font_class": "taizhangguanli",
