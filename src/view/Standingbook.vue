@@ -139,64 +139,65 @@
   </div>
 </template>
 <script>
-import { dateType, dateType1 } from "../utils/date.js";
+import { dateType, dateType1 } from '../utils/date.js'
 
 export default {
-  data() {
+  data () {
     return {
-      value: "",
-      value1: "",
+      value: '',
+      value1: '',
       aggregate: {
-        value2: "",
-        startTime: "",
-        endTime: "",
+        value2: '',
+        startTime: '',
+        endTime: ''
       },
       personal: {
-        value3: "",
-        startTime: "",
-        endTime: "",
+        value3: '',
+        startTime: '',
+        endTime: ''
       },
       options: dateType,
       options1: dateType1,
       list: [
         {
-          value: "1",
-          label: "全部门",
+          value: '1',
+          label: '全部门'
         },
         {
-          value: "2",
-          label: "车商",
-        },
+          value: '2',
+          label: '车商'
+        }
       ],
       data: [
         {
-          value: "1",
-          label: "个人",
+          value: '1',
+          label: '个人'
         },
         {
-          value: "2",
-          label: "车商",
-        },
-      ],
-    };
+          value: '2',
+          label: '车商'
+        }
+      ]
+
+    }
   },
   methods: {
-    getValue(val) {
-      console.log(val);
+    getValue (val) {
+      console.log(val)
       //   this.value = val;
     },
-    getvalue1(val) {
-      console.log(val);
+    getvalue1 (val) {
+      console.log(val)
     },
-    //查询
-    query(val) {
-      console.log(val);
+    // 查询
+    query (val) {
+      console.log(val)
     },
-    chaxun(val) {
-      console.log(val);
-    },
-  },
-};
+    chaxun (val) {
+      console.log(val)
+    }
+  }
+}
 </script>
 <style scoped>
 .count {

@@ -54,95 +54,95 @@
   </div>
 </template>
 <script>
-import { getadminparticulars } from "../../api/api";
-import { putAdminParticulars } from "../../api/api";
+import { getadminparticulars, putAdminParticulars } from '../../api/api'
+
 export default {
-  inject: ["reload"],
-  name: "admin",
-  data() {
+  inject: ['reload'],
+  name: 'admin',
+  data () {
     return {
       list: {},
       form: {},
       rules: {
         adminName: [
-          { required: false, message: "请输入用户名", trigger: "blur" },
+          { required: false, message: '请输入用户名', trigger: 'blur' }
         ],
         adminPhone: [
-          { required: false, message: "请输入电话号码", trigger: "blur" },
-          { type: "number", message: "必须为数字值" },
+          { required: false, message: '请输入电话号码', trigger: 'blur' },
+          { type: 'number', message: '必须为数字值' },
           {
             required: false,
             pattern: /^1[3-9]\d{9}$/,
-            message: "请输入正确的电话号码",
-            trigger: "blur",
-          },
+            message: '请输入正确的电话号码',
+            trigger: 'blur'
+          }
         ],
         adminAccount: [
-          { required: false, message: "请输入账号", trigger: "blur" },
-        ],
+          { required: false, message: '请输入账号', trigger: 'blur' }
+        ]
       },
       dialogFormVisible: false,
-      readonly: true, //只读
-      adminId: "",
-      adminRoleId: "",
-    };
+      readonly: true, // 只读
+      adminId: '',
+      adminRoleId: ''
+    }
   },
   methods: {
-    modify(formName) {
+    modify (formName) {
       // 表单验证
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let data = this.form;
-          console.log(data);
+          let data = this.form
+          console.log(data)
           putAdminParticulars(data)
             .then((res) => {
               console.log(res.data)
               if (res.data.code == 200) {
                 this.$notify({
-                  title: "成功",
-                  message: "修改成功",
-                  type: "success",
-                });
-                this.reload();
+                  title: '成功',
+                  message: '修改成功',
+                  type: 'success'
+                })
+                this.reload()
               }
             })
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err))
         } else {
-          console.log("error submit！");
-          return false;
+          console.log('error submit！')
+          return false
         }
-      });
-      this.dialogFormVisible = false;
-    },
+      })
+      this.dialogFormVisible = false
+    }
   },
-  mounted() {
-    let cookie = this.common.getCookie(); //获取cookie
-    this.adminId = cookie.replace(/\"/g, "").split("#")[0]; //获取cookie下标为0的adminId
-    console.log(this.adminId);
+  mounted () {
+    let cookie = this.common.getCookie() // 获取cookie
+    this.adminId = cookie.replace(/\"/g, '').split('#')[0] // 获取cookie下标为0的adminId
+    console.log(this.adminId)
     getadminparticulars({
-      adminId: this.adminId,
+      adminId: this.adminId
     })
       .then((res) => {
-        this.list = res.data.data;
+        this.list = res.data.data
         this.form = {
           adminId: this.list.adminId,
           adminName: this.list.adminName,
           adminPhone: this.list.adminPhone,
           adminAccount: this.list.adminAccount,
-          adminPassword:'' ,
-          newPassword: '',
-        };
-        console.log(this.form);
-        this.adminRoleId = this.list.adminRoleId;
+          adminPassword: '',
+          newPassword: ''
+        }
+        console.log(this.form)
+        this.adminRoleId = this.list.adminRoleId
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
   },
   computed: {
-    role() {
-      return this.adminRoleId == 1 ? "超级管理员":this.adminRoleId==2 ? "高级管理员":this.adminRoleId==3 ? "中级管理员" : this.adminRoleId==4 ? "初级管理员" : this.adminRoleId==5 ? "管理员":"";
-    },
-  },
-};
+    role () {
+      return this.adminRoleId == 1 ? '超级管理员' : this.adminRoleId == 2 ? '高级管理员' : this.adminRoleId == 3 ? '中级管理员' : this.adminRoleId == 4 ? '初级管理员' : this.adminRoleId == 5 ? '管理员' : ''
+    }
+  }
+}
 </script>
 
 <style scoped>

@@ -42,117 +42,117 @@
   </div>
 </template>
 <script>
-import { getadminrole } from "../api/api";
-import { postadmin } from "../api/api";
+import { getadminrole, postadmin } from '../api/api'
+
 export default {
-  inject: ["reload"],
-  data() {
+  inject: ['reload'],
+  data () {
     var validatePass = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入密码"));
+      if (value === '') {
+        callback(new Error('请输入密码'))
       } else {
-        if (this.ruleForm.qpswr !== "") {
-          this.$refs.ruleForm.validateField("qpswr");
+        if (this.ruleForm.qpswr !== '') {
+          this.$refs.ruleForm.validateField('qpswr')
         }
-        callback();
+        callback()
       }
-    };
+    }
     var validatePass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
       } else if (value !== this.ruleForm.adminPassword) {
-        callback(new Error("两次输入密码不一致!"));
+        callback(new Error('两次输入密码不一致!'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     return {
       adminRoleId: [],
       ruleForm: {
-        adminName: "",
-        adminPhone: "",
-        adminAccount: "",
-        adminPassword: "",
-        qpswr: "",
-        adminRoleId: "",
+        adminName: '',
+        adminPhone: '',
+        adminAccount: '',
+        adminPassword: '',
+        qpswr: '',
+        adminRoleId: ''
       },
       rules: {
         adminName: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
+          { required: true, message: '请输入用户名', trigger: 'blur' }
         ],
         adminPhone: [
-          { required: true, message: "请输入电话号码", trigger: "blur" },
+          { required: true, message: '请输入电话号码', trigger: 'blur' },
           {
             required: true,
             pattern: /^1[3-9]\d{9}$/,
-            message: "请输入正确的电话号码",
-            trigger: "blur",
+            message: '请输入正确的电话号码',
+            trigger: 'blur'
           },
-          { type: "number", message: "必须为数字值" },
+          { type: 'number', message: '必须为数字值' }
         ],
         adminAccount: [
           {
             required: true,
-            message: "请输入账号",
-            trigger: "blur",
-          },
+            message: '请输入账号',
+            trigger: 'blur'
+          }
         ],
         adminPassword: [
-          { required: true, validator: validatePass, trigger: "blur" },
+          { required: true, validator: validatePass, trigger: 'blur' }
         ],
-        qpswr: [{ required: true, validator: validatePass2, trigger: "blur" }],
+        qpswr: [{ required: true, validator: validatePass2, trigger: 'blur' }],
         adminRoleId: [
           {
-            type: "date",
+            type: 'date',
             required: true,
-            message: "请选择身份",
-            trigger: "change",
-          },
-        ],
-      },
-    };
+            message: '请选择身份',
+            trigger: 'change'
+          }
+        ]
+      }
+    }
   },
   methods: {
-    submitForm(formName) {
+    submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          console.log(this.ruleForm);
-          let cookie = this.common.getCookie(); //获取cookie
-          let adminId = cookie.replace(/\"/g, "").split("#")[0]; //获取cookie下标为0的adminId
-          let adminid = parseInt(adminId);
-          console.log(adminid);
-          let data = this.ruleForm;
-          this.$set(data, "adminId", adminid); //adminid存入data中
+          console.log(this.ruleForm)
+          let cookie = this.common.getCookie() // 获取cookie
+          let adminId = cookie.replace(/\"/g, '').split('#')[0] // 获取cookie下标为0的adminId
+          let adminid = parseInt(adminId)
+          console.log(adminid)
+          let data = this.ruleForm
+          this.$set(data, 'adminId', adminid) // adminid存入data中
           postadmin(data)
             .then((res) => {
-              console.log(res.data);
+              console.log(res.data)
               if (res.data.code == 200) {
                 this.$message({
                   showClose: true,
-                  message: "添加成功",
-                  type: "success",
-                });
-                this.reload();
+                  message: '添加成功',
+                  type: 'success'
+                })
+                this.reload()
               }
             })
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err))
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
-    },
+    resetForm (formName) {
+      this.$refs[formName].resetFields()
+    }
   },
-  mounted() {
+  mounted () {
     getadminrole()
       .then((res) => {
-        this.adminRoleId = res.data.data;
-        console.log(this.adminRoleId);
+        this.adminRoleId = res.data.data
+        console.log(this.adminRoleId)
       })
-      .catch((err) => console.log(err));
-  },
-};
+      .catch((err) => console.log(err))
+  }
+}
 </script>

@@ -71,60 +71,60 @@
 </template>
 
 <script>
-import { getAdminLogin } from "../../api/api";
+import { getAdminLogin } from '../../api/api'
 export default {
-  data() {
+  data () {
     return {
       loginForm: {
-        adminAccount: "",
-        adminPassword: "",
+        adminAccount: '',
+        adminPassword: ''
       },
       loginRules: {
         adminAccount: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
+          { required: true, message: '请输入用户名', trigger: 'blur' }
         ],
         adminPassword: [
-          { required: true, message: "请输入密码", trigger: "blur" },
-        ],
+          { required: true, message: '请输入密码', trigger: 'blur' }
+        ]
       },
-      visible: true,
-    };
+      visible: true
+    }
   },
   methods: {
-    changePass(value) {
-      this.visible = !(value === "show");
+    changePass (value) {
+      this.visible = !(value === 'show')
     },
-    submitForm(formName) {
+    submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let data = this.loginForm;
-          console.log(data);
+          let data = this.loginForm
+          console.log(data)
           getAdminLogin(data)
             .then((res) => {
-              console.log(res);
+              console.log(res)
               if (res.data.code == 200) {
-                let cookie = this.common.getCookie();
-                let userId = cookie.replace(/\"/g, "").split("#")[1];
-                localStorage.setItem("ms_username", userId);
+                let cookie = this.common.getCookie()
+                let userId = cookie.replace(/\"/g, '').split('#')[1]
+                localStorage.setItem('ms_username', userId)
                 this.$message({
-                  message: "登陆成功",
-                  type: "success",
-                });
-                this.$router.push({ path: "/" });
+                  message: '登陆成功',
+                  type: 'success'
+                })
+                this.$router.push({ path: '/' })
               } else if (res.data.code == 400) {
-                this.$message.error("账号或密码错误");
+                this.$message.error('账号或密码错误')
               }
             })
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err))
           // this.$router.push('/');
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
 
 <style lang="scss">

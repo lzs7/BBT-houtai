@@ -123,108 +123,106 @@
   </div>
 </template>
 <script>
-import { getentrust } from "../../api/api";
-import { getentrustId } from "../../api/api";
-import { select } from "../../api/api";
-import { getscreenentrust } from "../../api/api";
+import { getentrust, getentrustId, select, getscreenentrust } from '../../api/api'
+
 export default {
-  name: "basetable",
-  data() {
+  name: 'basetable',
+  data () {
     return {
       list: {
-        entrustState: "",
-        insuranceCompanyId: "",
-        userPhone: "",
-        licensePlateNumber: "",
-        startTime: "",
-        endTime: "",
+        entrustState: '',
+        insuranceCompanyId: '',
+        userPhone: '',
+        licensePlateNumber: '',
+        startTime: '',
+        endTime: ''
       },
       tableData: [],
       tableData1: [],
       dialogFormVisible: false,
-      adminId: "",
-      total: 0, //总条数
+      adminId: '',
+      total: 0, // 总条数
       page: 1,
       limit: 20,
-      pageSizes: [5, 10], //选择每页显示条数
-      pagesize: 0, //每页显示条数
-      layout: "total, sizes, prev, pager, next",
-      currentPage: 1, //默认开始页面
+      pageSizes: [5, 10], // 选择每页显示条数
+      pagesize: 0, // 每页显示条数
+      layout: 'total, sizes, prev, pager, next',
+      currentPage: 1, // 默认开始页面
       background: true,
       autoScroll: true,
       hidden: false,
       baoxian: [],
       entrustState: [
-        { value: 0, label: "未接单" },
-        { value: 1, label: "已接单" },
-        { value: 2, label: "待确认完成" },
-        { value: 3, label: "已完成" },
-        { value: 4, label: "无人接单" },
-        { value: 5, label: "已撤单" },
-        { value: 6, label: "还单结束" },
-      ],
-    };
+        { value: 0, label: '未接单' },
+        { value: 1, label: '已接单' },
+        { value: 2, label: '待确认完成' },
+        { value: 3, label: '已完成' },
+        { value: 4, label: '无人接单' },
+        { value: 5, label: '已撤单' },
+        { value: 6, label: '还单结束' }
+      ]
+    }
   },
   methods: {
     // 筛选功能
-    shaixuan(val) {
-      console.log(val);
-      let data = val;
-      this.$set(data, "adminId", this.adminId);
+    shaixuan (val) {
+      console.log(val)
+      let data = val
+      this.$set(data, 'adminId', this.adminId)
       getscreenentrust(data)
         .then((res) => {
-          console.log(res.data);
-          this.tableData = res.data.data;
-          this.total = res.data.count; //总条数
-          this.pagesize = res.data.size; //每页显示多少条
+          console.log(res.data)
+          this.tableData = res.data.data
+          this.total = res.data.count // 总条数
+          this.pagesize = res.data.size // 每页显示多少条
           if (res.data.code == 200) {
             this.$notify({
-              title: "成功",
-              message: "查询成功",
-              type: "success",
-            });
+              title: '成功',
+              message: '查询成功',
+              type: 'success'
+            })
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err))
     },
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+    handleSizeChange (val) {
+      console.log(`每页 ${val} 条`)
     },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
-      this.currentPage = val;
-      let index = val;
+    handleCurrentChange (val) {
+      console.log(`当前页: ${val}`)
+      this.currentPage = val
+      let index = val
       getentrust({
         adminId: this.adminId,
-        index: index,
+        index: index
       })
         .then((res) => {
-          console.log(res.data);
-          this.tableData = res.data.data;
-          this.total = res.data.count; //总条数
-          this.pagesize = res.data.size; //每页显示多少条
+          console.log(res.data)
+          this.tableData = res.data.data
+          this.total = res.data.count // 总条数
+          this.pagesize = res.data.size // 每页显示多少条
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err))
     },
-    handleEdit(row) {
-      //打开弹窗
-      this.dialogFormVisible = true;
-      let entrustId = row.entrustId;
-      console.log(entrustId);
-      //查看详情
+    handleEdit (row) {
+      // 打开弹窗
+      this.dialogFormVisible = true
+      let entrustId = row.entrustId
+      console.log(entrustId)
+      // 查看详情
       getentrustId({
         adminId: this.adminId,
-        entrustId: entrustId,
+        entrustId: entrustId
       })
         .then((res) => {
           // this.tableData1= res.data.data
           // console.log(this.tableData1)
-          let arr = [];
-          arr.push(res.data.data);
-          this.tableData1 = arr;
-          console.log(this.tableData1);
+          let arr = []
+          arr.push(res.data.data)
+          this.tableData1 = arr
+          console.log(this.tableData1)
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err))
     },
     // edit(row, index) {
     //   row.zz = true;
@@ -232,61 +230,61 @@ export default {
     // save(row, index) {
     //   row.zz = false;
     // },
-    //判断
-    userTypeList(row) {
-      return row.finallyUserId == null ? "暂无接单人员" : row.finallyUserId;
+    // 判断
+    userTypeList (row) {
+      return row.finallyUserId == null ? '暂无接单人员' : row.finallyUserId
     },
-    //判断委托状态显示什么内容
-    entruststate(row) {
+    // 判断委托状态显示什么内容
+    entruststate (row) {
       return row.entrustState == 0
-        ? "未接单"
+        ? '未接单'
         : row.entrustState == 1
-        ? "已接单"
-        : row.entrustState == 2
-        ? "待确认完成"
-        : row.entrustState == 3
-        ? "已完成"
-        : row.entrustState == 4
-        ? "无人接单"
-        : row.entrustState == 5
-        ? "委托人已撤单"
-        : row.entrustState == 6
-        ? "还单结束"
-        : "";
+          ? '已接单'
+          : row.entrustState == 2
+            ? '待确认完成'
+            : row.entrustState == 3
+              ? '已完成'
+              : row.entrustState == 4
+                ? '无人接单'
+                : row.entrustState == 5
+                  ? '委托人已撤单'
+                  : row.entrustState == 6
+                    ? '还单结束'
+                    : ''
     },
-    //判断服务费显示内容
-    Charge(row) {
+    // 判断服务费显示内容
+    Charge (row) {
       return row.entrustServiceCharge == null
-        ? "私下交易"
-        : row.entrustServiceCharge;
+        ? '私下交易'
+        : row.entrustServiceCharge
     },
-    //备注
-    beizhu(row) {
-      return row.entrustRemark == "" ? "无备注" : row.entrustRemark;
-    },
+    // 备注
+    beizhu (row) {
+      return row.entrustRemark == '' ? '无备注' : row.entrustRemark
+    }
   },
-  mounted() {
-    let cookie = this.common.getCookie(); //获取cookie
-    this.adminId = cookie.replace(/\"/g, "").split("#")[0]; //获取cookie下标为0的adminId
+  mounted () {
+    let cookie = this.common.getCookie() // 获取cookie
+    this.adminId = cookie.replace(/\"/g, '').split('#')[0] // 获取cookie下标为0的adminId
     getentrust({
       adminId: this.adminId,
-      index: 1,
+      index: 1
     })
       .then((res) => {
-        console.log(res.data);
-        this.tableData = res.data.data;
-        this.total = res.data.count; //总条数
-        this.pagesize = res.data.size; //每页显示多少条
+        console.log(res.data)
+        this.tableData = res.data.data
+        this.total = res.data.count // 总条数
+        this.pagesize = res.data.size // 每页显示多少条
       })
-      .catch((err) => console.log(err));
-    //保险公司
+      .catch((err) => console.log(err))
+    // 保险公司
     select()
       .then((res) => {
-        this.baoxian = res.data.data;
+        this.baoxian = res.data.data
       })
-      .catch((err) => console.log(err));
-  },
-};
+      .catch((err) => console.log(err))
+  }
+}
 </script>
 
 <style scoped>

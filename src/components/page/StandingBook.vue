@@ -29,49 +29,49 @@
 <script>
 import Standingbook from '../../view/Standingbook'
 export default {
-  data() {
+  data () {
     return {
-      input: "",
+      input: '',
       tableData: [
         {
-          date: "2016-05-02",
-          name: "王小虎",
-          bumen: "车商一部",
-          daili: "国合快车",
-          chepai: "湘A98985",
-          jiaoqiang: "650",
-          sahngye : "650",
+          date: '2016-05-02',
+          name: '王小虎',
+          bumen: '车商一部',
+          daili: '国合快车',
+          chepai: '湘A98985',
+          jiaoqiang: '650',
+          sahngye: '650'
         },
         {
-         date: "2016-05-02",
-          name: "王小虎",
-          bumen: "车商一部",
-          daili: "国合快车",
-          chepai: "湘A98985",
-          jiaoqiang: "650",
-          sahngye : "650",
-        },
+          date: '2016-05-02',
+          name: '王小虎',
+          bumen: '车商一部',
+          daili: '国合快车',
+          chepai: '湘A98985',
+          jiaoqiang: '650',
+          sahngye: '650'
+        }
       ],
-      adminId:'',
-      adminRoleId:'',
-    };
+      adminId: '',
+      adminRoleId: ''
+    }
   },
-  components:{
-      Standingbook,
+  components: {
+    Standingbook
   },
   methods: {
-    search() {
-      console.log(this.input);
-    },
+    search () {
+      console.log(this.input)
+    }
   },
-  mounted(){
-    let cookie = this.common.getCookie(); //获取cookie
-    this.adminId = cookie.replace(/\"/g, "").split("#")[0]; //获取cookie下标为0的adminId
-    this.adminRoleId=cookie.replace(/\"/g, "").split("#")[1];
+  mounted () {
+    let cookie = this.common.getCookie() // 获取cookie
+    this.adminId = cookie.replace(/\"/g, '').split('#')[0] // 获取cookie下标为0的adminId
+    this.adminRoleId = cookie.replace(/\"/g, '').split('#')[1]
     console.log(this.adminRoleId)
-    if(this.adminRoleId>1){
-      this.$router.push({ path: "/403" });
+    if (this.adminRoleId > 1) {
+      this.$router.push({ path: '/403' })
     }
   }
-};
+}
 </script>

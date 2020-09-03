@@ -115,35 +115,35 @@ import {
   getAddUser,
   getDeleteOne,
   testApi
-} from "../../../api/api";
+} from '../../../api/api'
 export default {
-  data() {
+  data () {
     return {
-      url:"",
-      searchInfo: "",
+      url: '',
+      searchInfo: '',
       users: [],
       total: 0,
       pageNo: 1,
       pageSize: 20,
       isShowloading: false,
-      delData: [], //删除的数据
-      editUserVisible: false, //是否显示编辑
-      addUserVisible: false, //新建用户框
-      userForm: {}, //编辑数据
+      delData: [], // 删除的数据
+      editUserVisible: false, // 是否显示编辑
+      addUserVisible: false, // 新建用户框
+      userForm: {}, // 编辑数据
       addUserForm: {
-        username: "",
-        rolename: "",
-        isable: "0"
-      }, //添加用户数据
+        username: '',
+        rolename: '',
+        isable: '0'
+      }, // 添加用户数据
       addUserRule: {
         username: [
-          { required: true, message: "请输入用户名", trigger: "blur" }
+          { required: true, message: '请输入用户名', trigger: 'blur' }
         ],
         rolename: [
           {
             required: true,
-            message: "请选择角色",
-            trigger: "change"
+            message: '请选择角色',
+            trigger: 'change'
           }
         ]
       },
@@ -151,132 +151,132 @@ export default {
         username: [
           {
             required: true,
-            message: "请输入姓名",
-            trigger: "blur"
+            message: '请输入姓名',
+            trigger: 'blur'
           }
         ]
       },
-      formLabelWidth: "120px"
-    };
+      formLabelWidth: '120px'
+    }
   },
   methods: {
-    formatterState(row, cloumn) {
-      return row.isable == "1" ? "正常" : "禁用";
+    formatterState (row, cloumn) {
+      return row.isable == '1' ? '正常' : '禁用'
     },
-    getUsers() {
-      this.isShowloading = true;
+    getUsers () {
+      this.isShowloading = true
       let params = {
         searchInfo: this.searchInfo.trim(),
         page: this.pageNo
-      };
+      }
       getUserList(params).then(res => {
-        this.users = res.data.users;
-        this.total = res.data.total;
-        this.isShowloading = false;
-      });
+        this.users = res.data.users
+        this.total = res.data.total
+        this.isShowloading = false
+      })
     },
-    currentChange(val) {
-      this.pageNo = val;
-      this.getUsers();
+    currentChange (val) {
+      this.pageNo = val
+      this.getUsers()
     },
-    handleSelectionChange(delData) {
-      this.delData = delData;
+    handleSelectionChange (delData) {
+      this.delData = delData
     },
-    saveUser() {
-      let params = Object.assign({}, this.addUserForm);
-      params.username = params.username.trim();
+    saveUser () {
+      let params = Object.assign({}, this.addUserForm)
+      params.username = params.username.trim()
       getAddUser(params).then(res => {
         this.$message({
-          message: "添加成功",
-          type: "success"
-        });
-        this.addUserVisible = false;
-        this.addUserForm = {};
-        this.getUsers();
-      });
+          message: '添加成功',
+          type: 'success'
+        })
+        this.addUserVisible = false
+        this.addUserForm = {}
+        this.getUsers()
+      })
     },
-    delAll() {
-      this.$confirm("确认删除该用户吗?", "提示", {
-        type: "warning"
+    delAll () {
+      this.$confirm('确认删除该用户吗?', '提示', {
+        type: 'warning'
       }).then(() => {
-        this.isShowloading = true;
-        let delIds = this.delData.map(item => item.userid).toString();
+        this.isShowloading = true
+        let delIds = this.delData.map(item => item.userid).toString()
         let params = {
           delIds: delIds
-        };
+        }
         getDeleUser(params).then(res => {
-          this.isShowloading = false;
+          this.isShowloading = false
           this.$message({
-            message: "删除成功",
-            type: "success"
-          });
-          this.getUsers();
-        });
-      });
+            message: '删除成功',
+            type: 'success'
+          })
+          this.getUsers()
+        })
+      })
     },
-    handleEdit(index, row) {
-      this.editUserVisible = true;
-      this.userForm = Object.assign({}, row);
+    handleEdit (index, row) {
+      this.editUserVisible = true
+      this.userForm = Object.assign({}, row)
     },
-    handleDelete(index, row) {
+    handleDelete (index, row) {
       let params = {
         userid: row.userid
-      };
-      this.$confirm("确认删除该用户？", "提示", {
-        type: "warning"
+      }
+      this.$confirm('确认删除该用户？', '提示', {
+        type: 'warning'
       }).then(() => {
         getDeleteOne(params).then(res => {
           this.$message({
-            type: "success",
-            message: "删除成功"
-          });
-          this.getUsers();
-        });
-      });
+            type: 'success',
+            message: '删除成功'
+          })
+          this.getUsers()
+        })
+      })
     },
-    editUser() {
+    editUser () {
       debugger
       this.$refs['editUserForm'].validate((valid) => {
         debugger
         if (valid) {
-          let params = this.userForm;
+          let params = this.userForm
           getEditUser(params)
             .then(res => {
               this.$message({
-                type: "success",
+                type: 'success',
                 message: res.data.msg
-              });
-              this.getUsers();
-              this.editUserVisible = false;
-              this.userForm = {};
+              })
+              this.getUsers()
+              this.editUserVisible = false
+              this.userForm = {}
             })
-            .bind(this);
+            .bind(this)
         }
-      });
+      })
     },
-    confirmClose(done) {
-      this.$confirm("确认关闭将丢失已编辑内容？", "提示", {
-        type: "warning"
+    confirmClose (done) {
+      this.$confirm('确认关闭将丢失已编辑内容？', '提示', {
+        type: 'warning'
       }).then(() => {
-        this.userForm = {};
-        done();
-      });
+        this.userForm = {}
+        done()
+      })
     },
-    testFn(){
-      this.url = '';
-      this.$axios.get(this.url).then(res=>{
+    testFn () {
+      this.url = ''
+      this.$axios.get(this.url).then(res => {
         console.log(res)
       })
-      testApi().then(res=>{
+      testApi().then(res => {
         console.log(res)
       })
     }
   },
-  mounted() {
-    //this.getUsers();
-    this.testFn();
+  mounted () {
+    // this.getUsers();
+    this.testFn()
   }
-};
+}
 </script>
 <style scoped>
 .handle-box {
@@ -306,4 +306,3 @@ export default {
   margin-right: 10px;
 }
 </style>
-

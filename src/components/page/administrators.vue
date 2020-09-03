@@ -22,50 +22,50 @@
   </div>
 </template>
 <script>
-import Personnel from "../../view/Personnel";
-import Addpeople from "../../view/Addpeople";
+import Personnel from '../../view/Personnel'
+import Addpeople from '../../view/Addpeople'
 import {getadministration} from '../../api/api'
 export default {
-  data() {
+  data () {
     return {
       list: {
-        adminName: "",
-        adminAccount: "",//账号
-        adminPhone: "",
+        adminName: '',
+        adminAccount: '', // 账号
+        adminPhone: ''
       },
-      selectTable:{},
-    };
+      selectTable: {}
+    }
   },
   methods: {
     // 筛选功能
-    search(val) {
-      let data=val
+    search (val) {
+      let data = val
       console.log(data)
-      let cookie = this.common.getCookie(); //获取cookie
-      let adminId = cookie.replace(/\"/g, "").split("#")[0]; //获取cookie下标为0的adminId
-      let adminRoleId = cookie.replace(/\"/g, "").split("#")[1];
-       this.$set(data, "adminId", adminId);
-       this.$set(data, "adminRoleId", adminRoleId);
-      //发送请求
+      let cookie = this.common.getCookie() // 获取cookie
+      let adminId = cookie.replace(/\"/g, '').split('#')[0] // 获取cookie下标为0的adminId
+      let adminRoleId = cookie.replace(/\"/g, '').split('#')[1]
+      this.$set(data, 'adminId', adminId)
+      this.$set(data, 'adminRoleId', adminRoleId)
+      // 发送请求
       getadministration(data).then((res) => {
         console.log(res.data)
-        this.selectTable=res.data.data
-        if(res.data.code==200){
+        this.selectTable = res.data.data
+        if (res.data.code == 200) {
           this.$notify({
-          title: '成功',
-          message: '查询成功',
-          type: 'success'
-        });
+            title: '成功',
+            message: '查询成功',
+            type: 'success'
+          })
         }
       })
-      .catch((err) => console.log(err));
-    },
+        .catch((err) => console.log(err))
+    }
   },
   components: {
     Personnel,
-    Addpeople,
-  },
-};
+    Addpeople
+  }
+}
 </script>
 <style scoped>
 span {

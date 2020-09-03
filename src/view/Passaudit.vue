@@ -88,113 +88,112 @@
   </div>
 </template>
 <script>
-import { getnewuser } from "../api/api";
-import { getuser } from "../api/api";
-import { select } from "../api/api";
+import { getnewuser, getuser, select } from '../api/api'
+
 export default {
-  data() {
+  data () {
     return {
       list: {
-        userName: "",
-        insuranceCompanyName: "",
-        userPhone: "",
-        startTime: "",
-        endTime: "",
+        userName: '',
+        insuranceCompanyName: '',
+        userPhone: '',
+        startTime: '',
+        endTime: ''
       },
       shaixuan: {},
       baoxian: [],
       tableData: [],
       form: {
-        name: "",
-        region: "",
+        name: '',
+        region: ''
       },
-      formLabelWidth: "120px",
+      formLabelWidth: '120px',
       total: 0,
       page: 1,
       limit: 20,
-      pageSizes: [5, 10], //每页展示条
+      pageSizes: [5, 10], // 每页展示条
       pagesize: 0,
-      layout: "total, sizes, prev, pager, next, jumper",
+      layout: 'total, sizes, prev, pager, next, jumper',
       background: true,
       autoScroll: true,
       hidden: false,
       cur_page: 1,
-      adminId: "",
-      adminRoleId: "",
+      adminId: '',
+      adminRoleId: '',
       centerDialogVisible: false,
-      tableData1: {}, //详情
-    };
+      tableData1: {} // 详情
+    }
   },
   methods: {
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+    handleSizeChange (val) {
+      console.log(`每页 ${val} 条`)
     },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+    handleCurrentChange (val) {
+      console.log(`当前页: ${val}`)
     },
-    //查看详情
-    xiangqing(val) {
-      this.centerDialogVisible = true;
-      let userId = val.userId;
-      console.log(userId);
+    // 查看详情
+    xiangqing (val) {
+      this.centerDialogVisible = true
+      let userId = val.userId
+      console.log(userId)
       getuser({
         userId: userId,
-        adminRoleId: this.adminRoleId,
+        adminRoleId: this.adminRoleId
       })
         .then((res) => {
-          this.tableData1 = res.data.data;
-          console.log(this.tableData1);
+          this.tableData1 = res.data.data
+          console.log(this.tableData1)
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err))
     },
     // 筛选
-    screen(val) {
-      let data = val;
-      let cookie = this.common.getCookie(); //获取cookie
-      let adminId = cookie.replace(/\"/g, "").split("#")[0]; //获取cookie下标为0的adminId
-      this.$set(data, "adminId", adminId);
-      this.$set(data, "userState", 3);
+    screen (val) {
+      let data = val
+      let cookie = this.common.getCookie() // 获取cookie
+      let adminId = cookie.replace(/\"/g, '').split('#')[0] // 获取cookie下标为0的adminId
+      this.$set(data, 'adminId', adminId)
+      this.$set(data, 'userState', 3)
       getnewuser(data)
         .then((res) => {
-          console.log(res.data);
-          this.shaixuan = res.data.data;
+          console.log(res.data)
+          this.shaixuan = res.data.data
           if (res.data.code == 200) {
             this.$notify({
-              title: "成功",
-              message: "筛选成功",
-              type: "success",
-            });
-            this.tableData = this.shaixuan;
+              title: '成功',
+              message: '筛选成功',
+              type: 'success'
+            })
+            this.tableData = this.shaixuan
           } else if (res.data.code == null) {
-            this.$message("暂无数据");
+            this.$message('暂无数据')
           }
         })
-        .catch((err) => console.log(err));
-    },
+        .catch((err) => console.log(err))
+    }
   },
-  mounted() {
-    let cookie = this.common.getCookie(); //获取cooki
-    this.adminId = cookie.replace(/\"/g, "").split("#")[0]; //获取cookie下标为0的adminId
-    this.adminRoleId = cookie.replace(/\"/g, "").split("#")[1];
+  mounted () {
+    let cookie = this.common.getCookie() // 获取cooki
+    this.adminId = cookie.replace(/\"/g, '').split('#')[0] // 获取cookie下标为0的adminId
+    this.adminRoleId = cookie.replace(/\"/g, '').split('#')[1]
     getnewuser({
       adminId: this.adminId,
-      userState: 3,
+      userState: 3
     })
       .then((res) => {
-        console.log(res.data);
-        this.tableData = res.data.data;
-        this.total = res.data.count; //总条数
-        this.pagesize = res.data.size; //每页显示多少条
+        console.log(res.data)
+        this.tableData = res.data.data
+        this.total = res.data.count // 总条数
+        this.pagesize = res.data.size // 每页显示多少条
       })
-      .catch((err) => console.log(err));
-    //保险公司
+      .catch((err) => console.log(err))
+    // 保险公司
     select()
       .then((res) => {
-        this.baoxian = res.data.data;
+        this.baoxian = res.data.data
       })
-      .catch((err) => console.log(err));
-  },
-};
+      .catch((err) => console.log(err))
+  }
+}
 </script>
 <style scoped>
 span {

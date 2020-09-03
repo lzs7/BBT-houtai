@@ -25,66 +25,65 @@
   </div>
 </template>
 <script>
-import { getallconsume } from "../api/api";
+import { getallconsume } from '../api/api'
 export default {
-    props: ["tabledata1"], //接受父组件穿过来的值
-  data() {
+  props: ['tabledata1'], // 接受父组件穿过来的值
+  data () {
     return {
       tableData1: [],
-      adminId: "",
-      total: 0, //总条数
+      adminId: '',
+      total: 0, // 总条数
       page: 1,
       limit: 20,
-      pageSizes: [5, 10], //选择每页显示条数
-      pagesize: 0, //每页显示条数
-      layout: "total, sizes, prev, pager, next",
-      currentPage: 1, //默认开始页面
+      pageSizes: [5, 10], // 选择每页显示条数
+      pagesize: 0, // 每页显示条数
+      layout: 'total, sizes, prev, pager, next',
+      currentPage: 1, // 默认开始页面
       background: true,
       autoScroll: true,
-      hidden: false,
-    };
+      hidden: false
+    }
   },
   methods: {
-    consumeState(row) {
-      return row.consumeState == 1 ? "审核通过" : "";
+    consumeState (row) {
+      return row.consumeState == 1 ? '审核通过' : ''
     },
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+    handleSizeChange (val) {
+      console.log(`每页 ${val} 条`)
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       // 切换页数
-      console.log(`当前页: ${val}`);
-      this.currentPage = val;
-      let index=val
-       getallconsume({
-      adminId: this.adminId,
-      consumeState: 1,
-      index: index
-    })
-      .then((res) => {
-        console.log(res.data);
-        this.tableData1 = res.data.data;
-        this.total = res.data.count; //总条数
-        this.pagesize = res.data.size; //每页显示多少条
-        
+      console.log(`当前页: ${val}`)
+      this.currentPage = val
+      let index = val
+      getallconsume({
+        adminId: this.adminId,
+        consumeState: 1,
+        index: index
       })
-      .catch((err) => console.log(err));
-    },
+        .then((res) => {
+          console.log(res.data)
+          this.tableData1 = res.data.data
+          this.total = res.data.count // 总条数
+          this.pagesize = res.data.size // 每页显示多少条
+        })
+        .catch((err) => console.log(err))
+    }
   },
-   watch: {
-    //监听传值的变化，
+  watch: {
+    // 监听传值的变化，
     tabledata1: function (a, b) {
-      //a是新值，b是旧值
-      console.log(a);
+      // a是新值，b是旧值
+      console.log(a)
       let data = a
-      this.tableData1 = data.data;
-      this.total = data.count; //总条数
-      this.pagesize = data.size; //每页显示多少条
-    },
+      this.tableData1 = data.data
+      this.total = data.count // 总条数
+      this.pagesize = data.size // 每页显示多少条
+    }
   },
-  mounted() {
-    let cookie = this.common.getCookie(); //获取cookie
-    this.adminId = cookie.replace(/\"/g, "").split("#")[0]; //获取cookie下标为0的adminId
+  mounted () {
+    let cookie = this.common.getCookie() // 获取cookie
+    this.adminId = cookie.replace(/\"/g, '').split('#')[0] // 获取cookie下标为0的adminId
   }
-};
+}
 </script>

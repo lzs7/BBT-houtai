@@ -78,143 +78,142 @@
   </div>
 </template>
 <script>
-import { getadministration } from "../api/api";
-import { getadminrole } from "../api/api";
-import { putadministratormessage } from "../api/api";
+import { getadministration, getadminrole, putadministratormessage } from '../api/api'
+
 export default {
-  inject: ["reload"],
-  props: ["selectTable"], //接受父组件穿过来的值
-  data() {
+  inject: ['reload'],
+  props: ['selectTable'], // 接受父组件穿过来的值
+  data () {
     return {
       tableData: [],
       dialogFormVisible: false,
       form: {},
-      formLabelWidth: "120px",
-      total: 0, //总条数
+      formLabelWidth: '120px',
+      total: 0, // 总条数
       page: 1,
       limit: 20,
-      pageSizes: [5, 10], //选择每页显示条数
-      pagesize: 0, //每页显示条数
-      layout: "total, sizes, prev, pager, next",
-      currentPage: 1, //默认开始页面
+      pageSizes: [5, 10], // 选择每页显示条数
+      pagesize: 0, // 每页显示条数
+      layout: 'total, sizes, prev, pager, next',
+      currentPage: 1, // 默认开始页面
       background: true,
       autoScroll: true,
       hidden: false,
       adminRoleId: [],
       adminState: [
-        { value: "0", label: "正常" },
-        { value: "1", label: "冻结" },
+        { value: '0', label: '正常' },
+        { value: '1', label: '冻结' }
       ],
       rules: {
         adminPhone: [
           {
             required: false,
             pattern: /^1[3-9]\d{9}$/,
-            message: "请输入正确的电话号码",
-            trigger: "blur",
-          },
+            message: '请输入正确的电话号码',
+            trigger: 'blur'
+          }
         ],
         adminState: [
-          { required: true, message: "请选择状态", trigger: "change" },
-        ],
+          { required: true, message: '请选择状态', trigger: 'change' }
+        ]
       },
-      newAdminId: "",
-      adminId:'',
-      adminRoleId:''
-    };
+      newAdminId: '',
+      adminId: '',
+      adminRoleId: ''
+    }
   },
   methods: {
-    handleEdit(row) {
-      this.form = row;
-      console.log(this.form);
-      this.newAdminId = row.adminId;
-      console.log(this.newAdminId);
-      this.$set(this.form, "adminPassword", "");
-      this.$set(this.form, "adminState", "");
-      this.dialogFormVisible = true;
+    handleEdit (row) {
+      this.form = row
+      console.log(this.form)
+      this.newAdminId = row.adminId
+      console.log(this.newAdminId)
+      this.$set(this.form, 'adminPassword', '')
+      this.$set(this.form, 'adminState', '')
+      this.dialogFormVisible = true
     },
-    determine(formName) {
-      //确定
+    determine (formName) {
+      // 确定
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          console.log(this.form);
-          if (this.form.adminPassword == "") {
-            this.$set(this.form, "adminPassword", null);
+          console.log(this.form)
+          if (this.form.adminPassword == '') {
+            this.$set(this.form, 'adminPassword', null)
           }
-          let data = this.form;
+          let data = this.form
           // console.log("data:"+this.form)
-          this.$set(this.form, "newAdminId", this.newAdminId);
+          this.$set(this.form, 'newAdminId', this.newAdminId)
           putadministratormessage(data)
             .then((res) => {
               if (res.data.code == 200) {
                 this.$message({
                   showClose: true,
-                  message: "修改成功",
-                  type: "success",
-                });
-                this.reload();
+                  message: '修改成功',
+                  type: 'success'
+                })
+                this.reload()
               }
             })
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err))
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+    handleSizeChange (val) {
+      console.log(`每页 ${val} 条`)
     },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
-      this.currentPage = val;
-      let index = val;
+    handleCurrentChange (val) {
+      console.log(`当前页: ${val}`)
+      this.currentPage = val
+      let index = val
       getadministration({
         adminId: this.adminId,
         adminRoleId: this.adminRoleId,
-        index: index,
+        index: index
       })
         .then((res) => {
-          console.log(res.data);
-          this.tableData = res.data.data;
-          this.total = res.data.count; //总条数
-          this.pagesize = res.data.size; //每页显示多少条
+          console.log(res.data)
+          this.tableData = res.data.data
+          this.total = res.data.count // 总条数
+          this.pagesize = res.data.size // 每页显示多少条
         })
-        .catch((err) => console.log(err));
-    },
+        .catch((err) => console.log(err))
+    }
   },
-  mounted() {
-    let cookie = this.common.getCookie(); //获取cookie
-    this.adminId = cookie.replace(/\"/g, "").split("#")[0]; //获取cookie下标为0的adminId
-    this.adminRoleId = cookie.replace(/\"/g, "").split("#")[1];
+  mounted () {
+    let cookie = this.common.getCookie() // 获取cookie
+    this.adminId = cookie.replace(/\"/g, '').split('#')[0] // 获取cookie下标为0的adminId
+    this.adminRoleId = cookie.replace(/\"/g, '').split('#')[1]
     getadministration({
       adminId: this.adminId,
       adminRoleId: this.adminRoleId,
-      index: 1,
+      index: 1
     })
       .then((res) => {
-        console.log(res.data);
-        this.tableData = res.data.data;
-        this.total = res.data.count; //总条数
-        this.pagesize = res.data.size; //每页显示多少条
+        console.log(res.data)
+        this.tableData = res.data.data
+        this.total = res.data.count // 总条数
+        this.pagesize = res.data.size // 每页显示多少条
       })
-      .catch((err) => console.log(err));
-    //获取身份
+      .catch((err) => console.log(err))
+    // 获取身份
     getadminrole()
       .then((res) => {
-        this.adminRoleId = res.data.data;
+        this.adminRoleId = res.data.data
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
   },
   watch: {
-    //监听传值的变化，
+    // 监听传值的变化，
     selectTable: function (a, b) {
-      //a是新值，b是旧值
-      console.log(a);
-      this.tableData = a;
-    },
-  },
-};
+      // a是新值，b是旧值
+      console.log(a)
+      this.tableData = a
+    }
+  }
+}
 </script>
 <style scoped>
 .pagination-container {

@@ -33,15 +33,15 @@
 </template>
 
 <script>
-import vHead from "./Header.vue";
-import vSidebar from "./Sidebar.vue";
-import vTags from "./Tags.vue";
-import bus from "./bus";
-import { mapGetters } from "vuex";
-import { mapActions } from "vuex";
-import { getadminparticulars } from "../../api/api";
+import vHead from './Header.vue'
+import vSidebar from './Sidebar.vue'
+import vTags from './Tags.vue'
+import bus from './bus'
+import { mapGetters, mapActions } from 'vuex'
+
+import { getadminparticulars } from '../../api/api'
 export default {
-  data() {
+  data () {
     return {
       tagsList: [],
       collapse: false,
@@ -49,23 +49,23 @@ export default {
         adminPassword: '',
         newPassword: ''
       },
-        formLabelWidth: '120px'
-    };
+      formLabelWidth: '120px'
+    }
   },
   computed: {
-    ...mapGetters("dailog", {
-      isShow: "isShow"
+    ...mapGetters('dailog', {
+      isShow: 'isShow'
     })
   },
   methods: {
-    ...mapActions("dailog", ["hideDailog", "showDailog"]),
-    handleClose(){
-       this.$confirm('确认关闭？')
-          .then(_ => {
-            this.hideDailog();
-            //this.$store.dispatch('dailog/hideDailog')
-          }).bind(this)
-          .catch(_ => {});
+    ...mapActions('dailog', ['hideDailog', 'showDailog']),
+    handleClose () {
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          this.hideDailog()
+          // this.$store.dispatch('dailog/hideDailog')
+        }).bind(this)
+        .catch(_ => {})
     }
   },
   components: {
@@ -73,19 +73,19 @@ export default {
     vSidebar,
     vTags
   },
-  created() {
-    bus.$on("collapse", msg => {
-      this.collapse = msg;
-    });
+  created () {
+    bus.$on('collapse', msg => {
+      this.collapse = msg
+    })
 
     // 只有在标签页列表里的页面才使用keep-alive，即关闭标签之后就不保存到内存中了。
-    bus.$on("tags", msg => {
-      let arr = [];
+    bus.$on('tags', msg => {
+      let arr = []
       for (let i = 0, len = msg.length; i < len; i++) {
-        msg[i].name && arr.push(msg[i].name);
+        msg[i].name && arr.push(msg[i].name)
       }
-      this.tagsList = arr;
-    });
+      this.tagsList = arr
+    })
     // let cookie = this.common.getCookie(); //获取cookie
     // this.adminId = cookie.replace(/\"/g, "").split("#")[0]; //获取cookie下标为0的adminId
     // console.log(this.adminId);
@@ -102,7 +102,11 @@ export default {
     //     this.adminRoleId = this.list.adminRoleId;
     //   })
     //   .catch((err) => console.log(err));
-  
   }
 }
 </script>
+<style scoped>
+  .content{
+        background-color: #f0f2f5;
+  }
+</style>

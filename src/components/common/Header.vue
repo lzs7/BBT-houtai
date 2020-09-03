@@ -1,3 +1,7 @@
+/* eslint-disable no-useless-escape */
+/* eslint-disable standard/object-curly-even-spacing */
+/* eslint-disable standard/object-curly-even-spacing */
+/* eslint-disable no-unused-vars */
 <template>
   <div class="header">
     <!-- 折叠按钮 -->
@@ -44,102 +48,103 @@
   </div>
 </template>
 <script>
-import bus from "../common/bus";
-import { mapGetters } from "vuex";
-import { mapActions } from "vuex";
-import ThemePicker from "../ThemePicker";
-import { getadminparticulars } from "../../api/api";
-import {exit} from '../../api/api'
+import bus from '../common/bus'
+import { mapGetters, mapActions } from 'vuex'
+import ThemePicker from '../ThemePicker'
+import { getadminparticulars, exit} from '../../api/api'
+
 export default {
-  data() {
+  data () {
     return {
       collapse: false,
       fullscreen: false,
-      name: "linxin",
+      name: 'linxin',
       message: 2,
       list: {},
       form: {}
-    };
+    }
   },
   computed: {
-    ...mapGetters("dailog", {
-      isShow: "isShow"
+    ...mapGetters('dailog', {
+      isShow: 'isShow'
     })
   },
   methods: {
     // 用户名下拉菜单选择事件
-    handleCommand(command) {
-      if (command == "loginout") {
+    handleCommand (command) {
+      // eslint-disable-next-line eqeqeq
+      if (command == 'loginout') {
       //   localStorage.removeItem("ms_username");
       //   this.$router.push("/login");
       // } else if (command == "user") {
       //   this.$store.dispatch("dailog/showDailog");
-      exit().then((res) => {
-        if(res.data.code==200){
-          this.$router.push("/login");
-        }
+        exit().then((res) => {
+          // eslint-disable-next-line eqeqeq
+          if (res.data.code == 200) {
+            this.$router.push('/login')
+          }
 
         // this.$router.push("/login");
-      })
+        })
       }
     },
-    ...mapActions("dailog", ["hideDailog", "showDailog"]),
+    ...mapActions('dailog', ['hideDailog', 'showDailog']),
     // 侧边栏折叠
-    collapseChage() {
-      this.collapse = !this.collapse;
-      bus.$emit("collapse", this.collapse);
+    collapseChage () {
+      this.collapse = !this.collapse
+      bus.$emit('collapse', this.collapse)
     },
     // 全屏事件
-    handleFullScreen() {
-      let element = document.documentElement;
+    handleFullScreen () {
+      let element = document.documentElement
       if (this.fullscreen) {
         if (document.exitFullscreen) {
-          document.exitFullscreen();
+          document.exitFullscreen()
         } else if (document.webkitCancelFullScreen) {
-          document.webkitCancelFullScreen();
+          document.webkitCancelFullScreen()
         } else if (document.mozCancelFullScreen) {
-          document.mozCancelFullScreen();
+          document.mozCancelFullScreen()
         } else if (document.msExitFullscreen) {
-          document.msExitFullscreen();
+          document.msExitFullscreen()
         }
       } else {
         if (element.requestFullscreen) {
-          element.requestFullscreen();
+          element.requestFullscreen()
         } else if (element.webkitRequestFullScreen) {
-          element.webkitRequestFullScreen();
+          element.webkitRequestFullScreen()
         } else if (element.mozRequestFullScreen) {
-          element.mozRequestFullScreen();
+          element.mozRequestFullScreen()
         } else if (element.msRequestFullscreen) {
           // IE11
-          element.msRequestFullscreen();
+          element.msRequestFullscreen()
         }
       }
-      this.fullscreen = !this.fullscreen;
+      this.fullscreen = !this.fullscreen
     },
-    showDailog1() {
-      alert(12);
+    showDailog1 () {
+      alert(12)
     }
   },
-  mounted() {
+  mounted () {
     if (document.body.clientWidth < 1500) {
-      this.collapseChage();
+      this.collapseChage()
     }
-     let cookie = this.common.getCookie(); //获取cookie
-    this.adminId = cookie.replace(/\"/g, "").split("#")[0]; //获取cookie下标为0的adminId
+    let cookie = this.common.getCookie() // 获取cookie
+    this.adminId = cookie.replace(/\"/g, '').split('#')[0] // 获取cookie下标为0的adminId
     getadminparticulars({
-      adminId: this.adminId,
+      adminId: this.adminId
     })
       .then((res) => {
-        this.list = res.data.data;
-        this.form={
-         adminPassword:this.list.adminPassword,//当前密码
-          newPassword:this.list.newPassword//新密码
+        this.list = res.data.data
+        this.form = {
+          adminPassword: this.list.adminPassword, // 当前密码
+          newPassword: this.list.newPassword// 新密码
         }
-        this.adminRoleId = this.list.adminRoleId;
+        this.adminRoleId = this.list.adminRoleId
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
   }
-};
+}
 </script>
 <style scoped>
 .header {
@@ -161,6 +166,7 @@ export default {
   float: left;
   width: 250px;
   line-height: 55px;
+  font-family: 'KaiTi';
 }
 .header-right {
   float: right;

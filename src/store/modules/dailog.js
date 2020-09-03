@@ -1,31 +1,31 @@
 const state = {
-    showUser: false
-};
+  showUser: false
+}
 const getters = {
-    isShow(state) {
-        return state.showUser;
-    }
+  isShow (state) {
+    return state.showUser
+  }
 }
 const mutations = {
-    hide(state) {
-        state.showUser = false;
-    },
-    show(state) {
-        state.showUser = true;
-    }
+  hide (state) {
+    state.showUser = false
+  },
+  show (state) {
+    state.showUser = true
+  }
 }
 const actions = {
-    showDailog({ commit }) {
-        commit('show');
-    },
-    hideDailog({ commit }) {
-        commit('hide');
-    }
+  showDailog ({ commit }) {
+    commit('show')
+  },
+  hideDailog ({ commit }) {
+    commit('hide')
+  }
 }
 export default {
-    namespaced: true,
-    getters,
-    mutations,
-    actions,
-    state
+  namespaced: true,
+  getters,
+  mutations,
+  actions,
+  state
 }

@@ -46,33 +46,33 @@
 </template>
 
 <script>
-import bus from "../common/bus";
+import bus from '../common/bus'
 // import {getSysmenu} from '../../api/api'
 export default {
-  data() {
+  data () {
     return {
       collapse: false,
       menuItems: [],
       items: [
         {
-          icon: "iconfont icon-crmshouye",
-          index: "dashboard",
-          title: "系统首页",
+          icon: 'iconfont icon-crmshouye',
+          index: 'dashboard',
+          title: '系统首页'
         },
         {
-          icon: "iconfont icon-crmzhuce",
-          index: "tabs",
-          title: "用户注册审核",
+          icon: 'iconfont icon-crmzhuce',
+          index: 'tabs',
+          title: '用户注册审核'
         },
         {
-          icon: "iconfont icon-crmcaidan",
-          index: "table",
-          title: "委托监控",
+          icon: 'iconfont icon-crmcaidan',
+          index: 'table',
+          title: '委托监控'
         },
         {
-          icon: "iconfont icon-crmguanliyuan",
-          index: "administrators",
-          title: "人员管理",
+          icon: 'iconfont icon-crmguanliyuan',
+          index: 'administrators',
+          title: '人员管理'
         },
         // {
         //   icon: "iconfont icon-crmguanliyuan",
@@ -131,20 +131,20 @@ export default {
         //   ]
         // },
         {
-          icon: "iconfont icon-crmdouzi",
-          index: "hedou",
-          title: "和豆申请",
+          icon: 'iconfont icon-crmdouzi',
+          index: 'hedou',
+          title: '和豆申请'
         },
         {
-          icon: "iconfont icon-crmhuiyuanchaxun_xiaofeiqia",
-          index: "Consumer",
-          title: "消费卡申请",
+          icon: 'iconfont icon-crmhuiyuanchaxun_xiaofeiqia',
+          index: 'Consumer',
+          title: '消费卡申请'
         },
         {
-          icon: "iconfont icon-crmtaizhangguanli",
-          index: "StandingBook",
-          title: "台账管理",
-        },
+          icon: 'iconfont icon-crmtaizhangguanli',
+          index: 'StandingBook',
+          title: '台账管理'
+        }
         // {
         //   icon: "el-icon-rank",
         //   index: "6",
@@ -175,8 +175,8 @@ export default {
         //     }
         //   ]
         // }
-      ],
-    };
+      ]
+    }
   },
   methods: {
     // getMenuData(menuName) {
@@ -210,17 +210,17 @@ export default {
     // }
   },
   computed: {
-    onRoutes() {
-      return this.$route.path.replace("/", "");
-    },
+    onRoutes () {
+      return this.$route.path.replace('/', '')
+    }
   },
-  created() {
+  created () {
     // 通过 Event Bus 进行组件间通信，来折叠侧边栏
-    bus.$on("collapse", (msg) => {
-      this.collapse = msg;
-    });
-  },
-};
+    bus.$on('collapse', (msg) => {
+      this.collapse = msg
+    })
+  }
+}
 </script>
 
 <style scoped>

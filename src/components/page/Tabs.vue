@@ -20,32 +20,32 @@
 </template>
 
 <script>
-import Reviewed from "../../view/Reviewed";
-import Passaudit from "../../view/Passaudit";
-import Failed from "../../view/Failed";
+import Reviewed from '../../view/Reviewed'
+import Passaudit from '../../view/Passaudit'
+import Failed from '../../view/Failed'
 
-import { getnewuser } from "../../api/api";
+import { getnewuser } from '../../api/api'
 export default {
-  name: "tabs",
-  data() {
+  name: 'tabs',
+  data () {
     return {
-      activeName: "first",
-      tongguo: {},
-    };
+      activeName: 'first',
+      tongguo: {}
+    }
   },
   components: {
     Reviewed,
     Passaudit,
-    Failed,
+    Failed
   },
   methods: {
-    handleClick(tab, event) {
-      console.log(tab, event);
-    },
+    handleClick (tab, event) {
+      console.log(tab, event)
+    }
   },
-  mounted() {},
-  computed: {},
-};
+  mounted () {},
+  computed: {}
+}
 </script>
 
 <style scoped>
@@ -53,4 +53,3 @@ export default {
   width: 60%;
 }
 </style>
-

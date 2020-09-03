@@ -6,28 +6,28 @@
 <script>
 export default {
   name: 'App',
-   provide (){
-     return {
-       reload:this.reload
-     }
-  },
-  data(){
+  provide () {
     return {
-       isRouterAlive:true
+      reload: this.reload
     }
   },
-  methods:{
-    reload (){//刷新当前页面 其它组件inject:['reload'], this.reload()在页面上使用
-       this.isRouterAlive = false
-       this.$nextTick(function(){
-          this.isRouterAlive = true
-       })
+  data () {
+    return {
+      isRouterAlive: true
     }
   },
-  created(){//刷新页面显示加载中
-    let loading=document.getElementById('Loading')
-    if(loading!=null){
-      document.body.removeChild(loading);
+  methods: {
+    reload () { // 刷新当前页面 其它组件inject:['reload'], this.reload()在页面上使用
+      this.isRouterAlive = false
+      this.$nextTick(function () {
+        this.isRouterAlive = true
+      })
+    }
+  },
+  created () { // 刷新页面显示加载中
+    let loading = document.getElementById('Loading')
+    if (loading != null) {
+      document.body.removeChild(loading)
     }
   }
 }
