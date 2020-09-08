@@ -241,4 +241,7 @@ export default {
 .sidebar > ul {
   height: 100%;
 }
+.el-menu-item.is-active {
+   background-color: #009688!important;
+}
 </style>
