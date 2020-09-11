@@ -53,14 +53,12 @@ export default {
   methods: {
     // 确认按钮
     edit (row) {
-      console.log(row)
       getcheckconsume({
         consumeId: row.consumeId,
         adminId: this.adminId,
         index: 1
       })
         .then((res) => {
-          console.log(res.data)
           if (res.data.code == 200) {
             this.$message({
               showClose: true,
@@ -79,7 +77,6 @@ export default {
         index: 2
       })
         .then((res) => {
-          console.log(res.data)
           if (res.data.code == 200) {
             this.$message({
               showClose: true,
@@ -108,7 +105,6 @@ export default {
         index: index
       })
         .then((res) => {
-          console.log(res.data)
           this.tabledata = res.data.data
           this.total = res.data.count // 总条数
           this.pagesize = res.data.size // 每页显示多少条
@@ -126,7 +122,6 @@ export default {
       index: 1
     })
       .then((res) => {
-        console.log(res.data.data)
         that.tabledata = res.data.data
         that.total = res.data.count // 总条数
         that.pagesize = res.data.size // 每页显示多少条

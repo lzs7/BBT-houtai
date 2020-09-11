@@ -40,7 +40,6 @@ export default {
     // 筛选功能
     search (val) {
       let data = val
-      console.log(data)
       let cookie = this.common.getCookie() // 获取cookie
       let adminId = cookie.replace(/\"/g, '').split('#')[0] // 获取cookie下标为0的adminId
       let adminRoleId = cookie.replace(/\"/g, '').split('#')[1]
@@ -48,7 +47,6 @@ export default {
       this.$set(data, 'adminRoleId', adminRoleId)
       // 发送请求
       getadministration(data).then((res) => {
-        console.log(res.data)
         this.selectTable = res.data.data
         if (res.data.code == 200) {
           this.$notify({

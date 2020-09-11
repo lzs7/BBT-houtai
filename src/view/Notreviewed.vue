@@ -53,7 +53,6 @@ export default {
   methods: {
     // 确认按钮
     edit (row) {
-      console.log(row)
       let beansId = row.beansId
       getcheckbeans({
         adminId: this.adminId,
@@ -61,7 +60,6 @@ export default {
         index: 1
       })
         .then((res) => {
-          console.log(res.data)
           if (res.data.code == 200) {
             this.$message({
               showClose: true,
@@ -75,7 +73,6 @@ export default {
     },
     // 信息错误按钮
     save (row) {
-      console.log(row)
       let beansId = row.beansId
       getcheckbeans({
         adminId: this.adminId,
@@ -83,7 +80,6 @@ export default {
         index: 2
       })
         .then((res) => {
-          console.log(res.data)
           if (res.data.code == 200) {
             this.$message({
               showClose: true,
@@ -112,7 +108,6 @@ export default {
         index: index
       })
         .then((res) => {
-          console.log(res.data)
           this.tableData = res.data.data
           this.total = res.data.count // 总条数
           this.pagesize = res.data.size // 每页显示多少条
@@ -129,7 +124,6 @@ export default {
       index: 1
     })
       .then((res) => {
-        console.log(res.data)
         this.tableData = res.data.data
         this.total = res.data.count // 总条数
         this.pagesize = res.data.size // 每页显示多少条

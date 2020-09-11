@@ -56,7 +56,6 @@ export default {
 
     // 标签点击事件
     handleClick (tab, event) {
-      console.log(tab, event)
       if (tab.name == 'two') {
         // 触发‘配置管理’事件
         this.two()
@@ -69,14 +68,12 @@ export default {
      * 触发‘用户管理’事件 并发送请求 将数据传给子组件
      */
     two () {
-      console.log('我是审核通过')
       getallconsume({
         adminId: this.adminId,
         consumeState: 1,
         index: 1
       })
         .then((res) => {
-          console.log(res.data)
           this.tabledata1 = res.data
         })
         .catch((err) => console.log(err))
@@ -85,14 +82,12 @@ export default {
      * 触发‘配置管理’事件并发送请求 将数据传给子组件
      */
     three () {
-      console.log('我是信息错误')
       getallconsume({
         adminId: this.adminId,
         consumeState: 2,
         index: 1
       })
         .then((res) => {
-          console.log(res.data)
           this.tabledata2 = res.data
         })
         .catch((err) => console.log(err))

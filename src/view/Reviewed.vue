@@ -174,7 +174,6 @@ export default {
     // 通过审核的方法
     handleEdit (row) {
       this.centerDialogVisible = true
-      console.log(row)
       // let cookie = this.common.getCookie(); //获取cookie
       // let adminId = cookie.replace(/\"/g, "").split("#")[0]; //获取cookie下标为0的adminId
       // let data=row
@@ -188,13 +187,11 @@ export default {
         adminRoleId: this.adminRoleId
       })
         .then((res) => {
-          console.log(res.data.data)
           this.xiangqing = res.data.data
         })
         .catch((err) => console.log(err))
     },
     handleDelete (index, row) {
-      console.log(index, row)
     },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
@@ -203,11 +200,9 @@ export default {
       console.log(`当前页: ${val}`)
     },
     queren (val) {
-      console.log(val)
       let testState = val.testState
       let userState = val.userState
       let userId = val.userId
-      console.log(userId)
       getlogincheck({
         testState: testState,
         userState: userState,
@@ -215,21 +210,18 @@ export default {
         adminId: this.adminId
       })
         .then((res) => {
-          console.log(res.data)
           this.centerDialogVisible
         })
         .catch((err) => console.log(err))
     },
     // 筛选
     screen (val) {
-      console.log(val)
       let data = val
       let cookie = this.common.getCookie() // 获取cookie
       let adminId = cookie.replace(/\"/g, '').split('#')[0] // 获取cookie下标为0的adminId
       this.$set(data, 'adminId', adminId)
       getnewuser(data)
         .then((res) => {
-          console.log(res.data)
           this.shaixuan = res.data.data
           if (res.data.code == 200) {
             this.$notify({
@@ -252,7 +244,6 @@ export default {
       userState: 1
     })
       .then((res) => {
-        console.log(res.data)
         this.tableData = res.data.data
         this.total = res.data.count // 总条数
         this.pageSize = res.data.size // 每页显示多少条
@@ -261,7 +252,6 @@ export default {
       // 保险公司
     select()
       .then((res) => {
-        console.log(res.data)
         this.baoxian = res.data.data
       })
       .catch((err) => console.log(err))

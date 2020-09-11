@@ -93,10 +93,8 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let data = this.form
-          console.log(data)
           putAdminParticulars(data)
             .then((res) => {
-              console.log(res.data)
               if (res.data.code == 200) {
                 this.$notify({
                   title: '成功',
@@ -118,7 +116,6 @@ export default {
   mounted () {
     let cookie = this.common.getCookie() // 获取cookie
     this.adminId = cookie.replace(/\"/g, '').split('#')[0] // 获取cookie下标为0的adminId
-    console.log(this.adminId)
     getadminparticulars({
       adminId: this.adminId
     })
@@ -132,7 +129,6 @@ export default {
           adminPassword: '',
           newPassword: ''
         }
-        console.log(this.form)
         this.adminRoleId = this.list.adminRoleId
       })
       .catch((err) => console.log(err))

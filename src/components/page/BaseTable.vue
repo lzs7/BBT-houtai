@@ -166,12 +166,10 @@ export default {
   methods: {
     // 筛选功能
     shaixuan (val) {
-      console.log(val)
       let data = val
       this.$set(data, 'adminId', this.adminId)
       getscreenentrust(data)
         .then((res) => {
-          console.log(res.data)
           this.tableData = res.data.data
           this.total = res.data.count // 总条数
           this.pagesize = res.data.size // 每页显示多少条
@@ -197,7 +195,6 @@ export default {
         index: index
       })
         .then((res) => {
-          console.log(res.data)
           this.tableData = res.data.data
           this.total = res.data.count // 总条数
           this.pagesize = res.data.size // 每页显示多少条
@@ -208,7 +205,6 @@ export default {
       // 打开弹窗
       this.dialogFormVisible = true
       let entrustId = row.entrustId
-      console.log(entrustId)
       // 查看详情
       getentrustId({
         adminId: this.adminId,
@@ -220,7 +216,6 @@ export default {
           let arr = []
           arr.push(res.data.data)
           this.tableData1 = arr
-          console.log(this.tableData1)
         })
         .catch((err) => console.log(err))
     },
@@ -271,7 +266,6 @@ export default {
       index: 1
     })
       .then((res) => {
-        console.log(res.data)
         this.tableData = res.data.data
         this.total = res.data.count // 总条数
         this.pagesize = res.data.size // 每页显示多少条

@@ -116,16 +116,13 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          console.log(this.ruleForm)
           let cookie = this.common.getCookie() // 获取cookie
           let adminId = cookie.replace(/\"/g, '').split('#')[0] // 获取cookie下标为0的adminId
           let adminid = parseInt(adminId)
-          console.log(adminid)
           let data = this.ruleForm
           this.$set(data, 'adminId', adminid) // adminid存入data中
           postadmin(data)
             .then((res) => {
-              console.log(res.data)
               if (res.data.code == 200) {
                 this.$message({
                   showClose: true,
@@ -150,7 +147,6 @@ export default {
     getadminrole()
       .then((res) => {
         this.adminRoleId = res.data.data
-        console.log(this.adminRoleId)
       })
       .catch((err) => console.log(err))
   }

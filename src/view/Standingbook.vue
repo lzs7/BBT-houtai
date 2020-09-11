@@ -8,36 +8,36 @@
       <div class="mokuai">
         <p class="title">今日交强总台账</p>
         <p class="shuju">
-          <span>650元</span>
-          <span>10%</span>
+          <span>{{list2.todaySumCompulsory}}元</span>
+          <span>{{list2.todaySumCompulsoryPercentage}}</span>
         </p>
       </div>
       <div class="mokuai">
         <p class="title">今日商业总台账</p>
         <p class="shuju">
-          <span>650元</span>
-          <span>10%</span>
+          <span>{{list2.todaySumCommercial}}元</span>
+          <span>{{list2.todaySumCommercialPercentage}}</span>
         </p>
       </div>
       <div class="mokuai">
         <p class="title">本月交强总台账</p>
         <p class="shuju">
-          <span>650元</span>
-          <span>10%</span>
+          <span>{{list2.monthSumCompulsory}}元</span>
+          <span>{{list2.monthSumCompulsoryPercentage}}</span>
         </p>
       </div>
       <div class="mokuai">
         <p class="title">本月商业总台账</p>
         <p class="shuju">
-          <span>650元</span>
-          <span>10%</span>
+          <span>{{list2.monthSumCommercial}}元</span>
+          <span>{{list2.monthSumCommercialPercentage}}</span>
         </p>
       </div>
     </div>
     <!-- 月份 -->
     <div class="yue">
       <div class="block">
-        <span class="demonstration">商业险：</span>
+        <span class="demonstration">选择月份：</span>
         <el-select v-model="value" placeholder="请选择" @change="getValue">
           <el-option
             v-for="item in options"
@@ -46,29 +46,23 @@
             :value="item.value"
           ></el-option>
         </el-select>
-        <div class="yuan">650元</div>
-        <div class="yuan">10%</div>
       </div>
-      <!-- 交强险月份模块 -->
-      <div class="block">
-        <span class="demonstration">交强险：</span>
-        <el-select v-model="value1" placeholder="请选择" @change="getvalue1">
-          <el-option
-            v-for="item in options1"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
-        <div class="yuan">650元</div>
-        <div class="yuan">10%</div>
+      <div class="sj">
+        <div>商业险：</div>
+        <div class="yuan">{{timeData.commercial}}元</div>
+        <div class="yuan">{{timeData.percentageCommercial}}</div>
+      </div>
+       <div class="sj">
+        <div>交强险：</div>
+        <div class="yuan">{{timeData.compulsory}}元</div>
+        <div class="yuan">{{timeData.percentageCompulsory}}</div>
       </div>
     </div>
     <!-- ***************************** -->
     <div class="last_mokuai">
       <div class="xuanze">
-        <el-select v-model="aggregate.value2" placeholder="选择部门">
-          <el-option v-for="item in list" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-select v-model="aggregate.departmentId" placeholder="选择部门">
+          <el-option v-for="item in list" :key="item.value" :label="item.departmentName" :value="item.departmentId"></el-option>
         </el-select>
         <!-- 选择日期 -->
         <span>日期选择：</span>
@@ -91,20 +85,20 @@
       <!-- 内容 -->
       <div class="shuju_content">
         <div>交强险</div>
-        <div>650</div>
-        <div>10%</div>
+        <div>{{bumenData.compulsory}}元</div>
+        <div>{{bumenData.percentageCompulsory}}</div>
       </div>
       <div class="shuju_content">
         <div>商业险</div>
-        <div>650</div>
-        <div>10%</div>
+        <div>{{bumenData.commercial}}元</div>
+        <div>{{bumenData.percentageCommercial}}</div>
       </div>
     </div>
     <!-- ************ -->
     <div class="last_mokuai">
       <div class="xuanze">
-        <el-select v-model="personal.value3" placeholder="选择">
-          <el-option v-for="item in data" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-select v-model="personal.agentId" placeholder="选择代理人">
+          <el-option v-for="item in data" :key="item.value" :label="item.agentName" :value="item.agentId"></el-option>
         </el-select>
         <!-- 选择日期 -->
         <span>日期选择：</span>
@@ -127,77 +121,123 @@
       <!-- 内容 -->
       <div class="shuju_content">
         <div>交强险</div>
-        <div>650</div>
-        <div>10%</div>
+        <div>{{dailiData.compulsory}}元</div>
+        <div>{{dailiData.percentageCompulsory}}</div>
       </div>
       <div class="shuju_content">
         <div>商业险</div>
-        <div>650</div>
-        <div>10%</div>
+        <div>{{dailiData.commercial}}元</div>
+        <div>{{dailiData.percentageCommercial}}</div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { dateType, dateType1 } from '../utils/date.js'
-
+import { dateType} from "../utils/date.js";
+import { getsumdaily, getmonth,getsumselect,getdepartment,getagent } from "../api/api";
 export default {
-  data () {
+  data() {
     return {
-      value: '',
-      value1: '',
+      value: "",
       aggregate: {
-        value2: '',
-        startTime: '',
-        endTime: ''
+        departmentId: "",//部门id
+        startTime: "",
+        endTime: "",
       },
       personal: {
-        value3: '',
-        startTime: '',
-        endTime: ''
+        agentId: "",//代理人id
+        startTime: "",
+        endTime: "",
       },
       options: dateType,
-      options1: dateType1,
-      list: [
-        {
-          value: '1',
-          label: '全部门'
-        },
-        {
-          value: '2',
-          label: '车商'
-        }
-      ],
-      data: [
-        {
-          value: '1',
-          label: '个人'
-        },
-        {
-          value: '2',
-          label: '车商'
-        }
-      ]
-
-    }
+      list: [],//部门
+      data: [],//代理人
+      adminId: "",
+      list2: {},//总台账
+      timeData:{},//按月份查询台账
+      bumenData:{},//部门台账  默认显示全部门
+      dailiData:{}//代理人台账 默认显示全部人
+    };
   },
   methods: {
-    getValue (val) {
-      console.log(val)
+    getValue(val) {
+      var month = val;
+      getmonth({
+        adminId: this.adminId,
+        month: month,
+      })
+        .then((res) => {
+          this.timeData=res.data.data
+        })
+        .catch((err) => console.log(err));
       //   this.value = val;
     },
-    getvalue1 (val) {
-      console.log(val)
-    },
     // 查询
-    query (val) {
-      console.log(val)
+    query(val) {
+      var data=val;
+      this.$set(data, 'adminId', this.adminId)
+      getsumselect(data).then((res) =>{
+        this.bumenData=res.data.data
+      })
+      .catch((err) => console.log(err));
     },
-    chaxun (val) {
-      console.log(val)
-    }
-  }
-}
+    chaxun(val) {
+      var data=val;
+       this.$set(data, 'adminId', this.adminId)
+      getsumselect(data).then((res) =>{
+        this.dailiData=res.data.data
+      })
+      .catch((err) => console.log(err));
+    },
+  },
+  mounted() {
+    let cookie = this.common.getCookie(); // 获取cookie
+    this.adminId = cookie.replace(/\"/g, "").split("#")[0]; // 获取cookie下标为0的adminId
+    getsumdaily({//查询所有台账
+      adminId: this.adminId,
+    })
+      .then((res) => {
+        this.list2 = res.data.data;
+      })
+      .catch((err) => console.log(err));
+      //默认查询一月份
+       getmonth({
+        adminId: this.adminId,
+        month: 1,
+      })
+        .then((res) => {
+          this.timeData=res.data.data
+        })
+        .catch((err) => console.log(err));
+     //默认查询全部门当天的数据
+      getsumselect({
+        adminId:this.adminId,
+        departmentId : 0
+      }).then((res) =>{
+        this.bumenData=res.data.data
+      })
+      .catch((err) => console.log(err));
+      //默认查询全部人当天的数据
+ getsumselect({
+        adminId:this.adminId,
+        agentId : 0
+      }).then((res) =>{
+        this.dailiData=res.data.data
+      })
+      .catch((err) => console.log(err));
+    //查询所有部门
+    getdepartment().then((res) => {
+      this.list=res.data.data
+    })
+    //查询所有代理人
+    getagent().then((res) => {
+      this.data=res.data.data
+    })
+  },
+  created() {
+      this.value = this.options[0].value;
+    },
+};
 </script>
 <style scoped>
 .count {
@@ -245,14 +285,22 @@ export default {
   padding-top: 30px;
   display: flex;
 }
+.sj {
+  display: flex;
+  margin-left: 20px;
+  margin-top:10px;
+}
 .yuan {
   width: 200px;
-  margin-left: 50px;
+  margin-left: 13px;
   height: 32px;
   line-height: 32px;
   text-align: center;
   background-color: rgb(174, 180, 182);
   border-radius: 5px;
+}
+.sj div:nth-child(3) {
+  margin-left: 50px;
 }
 .xuanze {
   padding-top: 15px;

@@ -135,14 +135,12 @@ export default {
     xiangqing (val) {
       this.centerDialogVisible = true
       let userId = val.userId
-      console.log(userId)
       getuser({
         userId: userId,
         adminRoleId: this.adminRoleId
       })
         .then((res) => {
           this.tableData1 = res.data.data
-          console.log(this.tableData1)
         })
         .catch((err) => console.log(err))
     },
@@ -155,7 +153,6 @@ export default {
       this.$set(data, 'userState', 3)
       getnewuser(data)
         .then((res) => {
-          console.log(res.data)
           this.shaixuan = res.data.data
           if (res.data.code == 200) {
             this.$notify({
@@ -180,7 +177,6 @@ export default {
       userState: 3
     })
       .then((res) => {
-        console.log(res.data)
         this.tableData = res.data.data
         this.total = res.data.count // 总条数
         this.pagesize = res.data.size // 每页显示多少条

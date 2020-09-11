@@ -146,21 +146,17 @@ export default {
     details (val) {
       this.centerDialogVisible = true
       let userId = val.userId
-      console.log(userId)
       getuser({
         userId: userId,
         adminRoleId: this.adminRoleId
       })
         .then((res) => {
           this.tableData1 = res.data.data
-          console.log(this.tableData1)
         })
         .catch((err) => console.log(err))
     },
     // 筛选
     screen (val) {
-      console.log(11)
-      console.log(val)
       let data = val
       let cookie = this.common.getCookie() // 获取cookie
       let adminId = cookie.replace(/\"/g, '').split('#')[0] // 获取cookie下标为0的adminId
@@ -168,7 +164,6 @@ export default {
       this.$set(data, 'userState', 2)
       getnewuser(data)
         .then((res) => {
-          console.log(res.data)
           this.shaixuan = res.data.data
           if (res.data.code == 200) {
             this.$notify({
@@ -193,7 +188,6 @@ export default {
       userState: 2
     })
       .then((res) => {
-        console.log(res.data)
         this.tableData = res.data.data
         this.total = res.data.count // 总条数
         this.pageSize = res.data.size // 每页显示多少条

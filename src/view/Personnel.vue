@@ -125,9 +125,7 @@ export default {
   methods: {
     handleEdit (row) {
       this.form = row
-      console.log(this.form)
       this.newAdminId = row.adminId
-      console.log(this.newAdminId)
       this.$set(this.form, 'adminPassword', '')
       this.$set(this.form, 'adminState', '')
       this.dialogFormVisible = true
@@ -136,7 +134,6 @@ export default {
       // 确定
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          console.log(this.form)
           if (this.form.adminPassword == '') {
             this.$set(this.form, 'adminPassword', null)
           }
@@ -174,7 +171,6 @@ export default {
         index: index
       })
         .then((res) => {
-          console.log(res.data)
           this.tableData = res.data.data
           this.total = res.data.count // 总条数
           this.pagesize = res.data.size // 每页显示多少条
@@ -192,7 +188,6 @@ export default {
       index: 1
     })
       .then((res) => {
-        console.log(res.data)
         this.tableData = res.data.data
         this.total = res.data.count // 总条数
         this.pagesize = res.data.size // 每页显示多少条
@@ -209,7 +204,6 @@ export default {
     // 监听传值的变化，
     selectTable: function (a, b) {
       // a是新值，b是旧值
-      console.log(a)
       this.tableData = a
     }
   }

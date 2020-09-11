@@ -62,7 +62,6 @@ export default {
         index: index
       })
         .then((res) => {
-          console.log(res.data)
           this.tableData2 = res.data.data
           this.total = res.data.count // 总条数
           this.pagesize = res.data.size // 每页显示多少条
@@ -74,7 +73,6 @@ export default {
     // 监听传值的变化，
     tabledata2: function (a, b) {
       // a是新值，b是旧值
-      console.log(a)
       let data = a
       this.tableData2 = data.data
       this.total = data.count // 总条数

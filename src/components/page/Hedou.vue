@@ -45,7 +45,6 @@ export default {
   methods: {
     // 标签点击事件
     handleClick (tab, event) {
-      console.log(tab, event)
       if (tab.name == '2') {
         // 触发‘审核通过’事件
         this.two()
@@ -64,7 +63,6 @@ export default {
         index: 1
       })
         .then((res) => {
-          console.log(res.data)
           this.tabledata1 = res.data
         })
         .catch((err) => console.log(err))
@@ -79,7 +77,6 @@ export default {
         index: 1
       })
         .then((res) => {
-          console.log(res.data)
           this.tabledata2 = res.data
         })
         .catch((err) => console.log(err))

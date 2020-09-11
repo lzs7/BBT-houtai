@@ -69,7 +69,6 @@ export default {
           newUserCount: res.data.newUserCount, // 表示当天注册的委托人数 ,
           newEntrustCount: res.data.newEntrustCount // 当天发布的委托数 ,
         }
-        console.log(this.list)
       })
       .catch((err) => {})
   }

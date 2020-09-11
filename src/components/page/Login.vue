@@ -98,10 +98,8 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let data = this.loginForm
-          console.log(data)
           getAdminLogin(data)
             .then((res) => {
-              console.log(res)
               if (res.data.code == 200) {
                 let cookie = this.common.getCookie()
                 let userId = cookie.replace(/\"/g, '').split('#')[1]

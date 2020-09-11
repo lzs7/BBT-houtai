@@ -108,7 +108,6 @@ export default {
   },
   methods: {
     removeHandle (event) {
-      console.log(event)
       this.$message.success(`从 ${event.from.id} 移动到 ${event.to.id} `)
     }
   }
