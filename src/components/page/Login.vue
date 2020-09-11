@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <el-form
-      ref="loginForm"
+      ref="formName"
       :model="loginForm"
       :rules="loginRules"
       class="login-form"
@@ -95,7 +95,7 @@ export default {
       this.visible = !(value === 'show')
     },
     submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs.formName.validate((valid) => {
         if (valid) {
           let data = this.loginForm
           getAdminLogin(data)
