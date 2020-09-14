@@ -52,7 +52,7 @@
         <div class="yuan">{{timeData.commercial}}元</div>
         <div class="yuan">{{timeData.percentageCommercial}}</div>
       </div>
-       <div class="sj">
+       <div class="sj" style="padding-bottom:10px;">
         <div>交强险：</div>
         <div class="yuan">{{timeData.compulsory}}元</div>
         <div class="yuan">{{timeData.percentageCompulsory}}</div>
@@ -88,7 +88,7 @@
         <div>{{bumenData.compulsory}}元</div>
         <div>{{bumenData.percentageCompulsory}}</div>
       </div>
-      <div class="shuju_content">
+      <div class="shuju_content" style="padding-bottom:10px;">
         <div>商业险</div>
         <div>{{bumenData.commercial}}元</div>
         <div>{{bumenData.percentageCommercial}}</div>
@@ -124,7 +124,7 @@
         <div>{{dailiData.compulsory}}元</div>
         <div>{{dailiData.percentageCompulsory}}</div>
       </div>
-      <div class="shuju_content">
+      <div class="shuju_content" style="padding-bottom:10px;">
         <div>商业险</div>
         <div>{{dailiData.commercial}}元</div>
         <div>{{dailiData.percentageCommercial}}</div>
@@ -308,7 +308,6 @@ export default {
 }
 .yue {
   width: 98%;
-  height: 175px;
   margin: 0 auto;
   box-shadow: darkgrey 10px 10px 30px 5px;
 }
@@ -317,7 +316,6 @@ export default {
 }
 .last_mokuai {
   width: 98%;
-  height: 175px;
   margin: 0 auto;
   margin-top: 25px;
   box-shadow: darkgrey 10px 10px 30px 5px;

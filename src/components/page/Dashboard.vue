@@ -127,12 +127,12 @@ img {
 
 }
 .b-img {
-  width: 60px;
+  width: 20%;
   height: 50px;
   // margin-left:40%;
   // padding-top:10px
   position: absolute;
-  top: 10px;
+  top: 8%;
   left: 42%;
 }
 

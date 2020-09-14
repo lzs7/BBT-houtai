@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 台账管理 -->
-    <el-tabs type="border-card" style="min-height:400px">
+    <el-tabs type="border-card" style="min-height:600px">
       <el-tab-pane label="总台账">
         <Standingbook></Standingbook>
       </el-tab-pane>
@@ -26,6 +26,7 @@
       <!-- 分页 -->
       <div :class="{'hidden':hidden}" class="pagination-container">
         <el-pagination
+        hide-on-single-page
           :background="background"
           :layout="layout"
           :page-sizes="pageSizes"
@@ -110,3 +111,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+  .pagination-container{
+    margin-top:20px;
+  }
+</style>
